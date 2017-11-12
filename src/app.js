@@ -1,7 +1,7 @@
 import { app,  BrowserWindow, Menu, ipcMain, dialog } from "electron"
 import url from "url"
 import path from "path"
-import { IS_MAC, IS_PROD, electronReady, directoryRead } from "./common/process-core"
+import { IS_MAC, IS_PROD, electronReady, directoryRead, folderOpen } from "./common/process-core"
 import fs from "fs"
 
 const mainMenuTemplate = [
@@ -44,11 +44,9 @@ if(!IS_PROD) {
     })
 }
 
-const onDirectoryRead = (files, mainWindow) => {
-    for(let file of files) {
-        mainWindow.webContents.send("file:read", file)
-    }
-        
+const onDirectoryRead = ({ directory, files}, mainWindow) => {
+    files.filter(file => file.endsWith(".png") || file.endsWith(".jpg") || file.endsWith(".jpeg") )
+        .forEach(file => mainWindow.webContents.send("file:read", `${directory}/${file}`))  
 }
 
 electronReady(app)
@@ -68,8 +66,8 @@ electronReady(app)
         Menu.setApplicationMenu(mainMenu)
 
         ipcMain.on("nav:open-folder", e => {
-            dialog.showOpenDialog(photoMainWindow, { properties: ["openDirectory"] }, directory => {
-                directoryRead(directory[0]).then(files => onDirectoryRead(files, photoMainWindow))
-            })
+            folderOpen(photoMainWindow, { properties: ["openDirectory"] })
+                .then(directoryRead)
+                .then(files => onDirectoryRead(files, photoMainWindow))
         })
     })

@@ -13,11 +13,16 @@ export const electronReady = (app) => new Promise((resolve, reject) => {
 
 export const directoryRead = (directory) => new Promise((resolve, reject) => {
     fs.readdir(directory, {}, (err, files) => {
-        console.log(directory)
         if(err)
             reject(err)
         else 
-            resolve(files)
+            resolve({ directory: directory, files: files })
+    })
+})
+
+export const folderOpen = (window, options) => new Promise((resolve, reject) => {
+    dialog.showOpenDialog(window, options, directories => {
+        resolve(directories[0])
     })
 })
 

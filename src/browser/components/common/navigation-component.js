@@ -4,7 +4,6 @@ import { ipcRenderer } from "electron"
 export class navigationComponent extends baseComponent {
     constructor($el) {
         super($el)
-        this.openFolder = false
     }
 
     settifyTriggers() {

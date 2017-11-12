@@ -7,11 +7,21 @@ export class photoManageComponent extends baseComponent {
         super($el)
     }
 
+    addImage (file) {
+        const figureClasses = ["image", "is-128x128"]
+        const $li = document.createElement("li")
+        const $figure = document.createElement("figure")
+        $figure.classList.add(...figureClasses)
+        const $img = document.createElement("img")
+        $img.setAttribute("src", encodeURI(`file://${file}`))
+        $figure.appendChild($img)
+        $li.appendChild($figure)
+        this.$el.querySelector("#photo-list").appendChild($li)
+    }
+
     settifyTriggers() { 
         ipcRenderer.on("file:read", (e, file) => {
-            const $li = document.createElement("li")
-            $li.appendChild(document.createTextNode(file))
-            this.$el.querySelector("#photo-list").appendChild($li)
+            this.addImage(file)
         })
     }
 }

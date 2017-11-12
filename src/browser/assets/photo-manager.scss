@@ -44,4 +44,22 @@ body {
         }
 
     }
+
+    .photo-list {
+        float:left;
+        list-style: none;
+        
+        li {
+            float: left;
+            .is-128x128 {
+                img {
+                    height: 128px;
+                }
+            }
+        }
+    }
+
+    #photo-app {
+        padding-left: 55px;
+    }
 }
