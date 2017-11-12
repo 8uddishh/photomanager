@@ -1,0 +1,47 @@
+@import "bulma";
+@import "font-awesome";
+
+$app-white: #fff;
+$app-black: #252525;
+$app-dark-blue: #215b7d;
+$app-blue: rgb(18, 168, 243);
+$app-grey: #5e6b71;
+
+html {
+    height: 100%;
+}
+body {
+    font-family: 'Ubuntu', sans-serif !important;
+    background-color: $app-dark-blue;
+    height: 100%;
+    width: 100%;
+
+    .vertical-menu {
+        float:left;
+        position: absolute;
+        padding: 0px 0px;
+        top: 0;
+        height: 100%;
+        width: 55px;
+        background-color: $app-black;
+        color: $app-white;
+        z-index: 99;
+
+        a {
+            min-height: 55px;
+            padding: 15px 10px;
+            &:hover {
+                background-color: $app-grey;
+                .fa {
+                    color: darken($app-blue, 0.5);
+                }
+            }
+        }
+
+        .fa {
+            font-size: 1.5em;
+            color: $app-white;
+        }
+
+    }
+}
