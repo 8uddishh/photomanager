@@ -1,21 +1,32 @@
 import { baseComponent } from "./../base-component"
 import { ipcRenderer } from "electron"
+import Croppie from "croppie"
 
 export class photoManageComponent extends baseComponent {
     
     constructor($el) {
         super($el)
+
+        this.imageTemplate = (file, ...figureClasses) => `<figure class="${figureClasses.reduce((curr, next) => `${curr} ${next}`)}">
+                <img src = "${encodeURI(`file://${file}`)}" />
+            </figure>`
+        this.croppie = new Croppie($el.querySelector("#selectedImage"), {
+            viewport: {
+                width: 300,
+                height: 500
+            }
+        })
+    }
+
+    onImageSelect (e) {
+        let src = e.target.getAttribute("src")
+        this.croppie.bind(src)
     }
 
     addImage (file) {
-        const figureClasses = ["image", "is-128x128"]
         const $li = document.createElement("li")
-        const $figure = document.createElement("figure")
-        $figure.classList.add(...figureClasses)
-        const $img = document.createElement("img")
-        $img.setAttribute("src", encodeURI(`file://${file}`))
-        $figure.appendChild($img)
-        $li.appendChild($figure)
+        $li.innerHTML = this.imageTemplate(file, "image", "is-128x128")
+        $li.querySelector("img").addEventListener("click", this.onImageSelect.bind(this))
         this.$el.querySelector("#photo-list").appendChild($li)
     }
 

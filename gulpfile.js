@@ -15,7 +15,8 @@ gulp.task("sass", () => {
     .pipe(sass({
         includePaths: [
             'node_modules/bulma',
-            'node_modules/font-awesome/scss'
+            'node_modules/font-awesome/scss',
+            'node_modules/croppie'
         ]
       }).on('error', sass.logError))
     .pipe(gulp.dest(`${destination}/browser/assets/css`))

@@ -1,5 +1,6 @@
 @import "bulma";
 @import "font-awesome";
+@import "croppie";
 
 $app-white: #fff;
 $app-black: #252525;
@@ -9,10 +10,10 @@ $app-grey: #5e6b71;
 
 html {
     height: 100%;
+    background-color: $app-dark-blue;
 }
 body {
     font-family: 'Ubuntu', sans-serif !important;
-    background-color: $app-dark-blue;
     height: 100%;
     width: 100%;
 
@@ -45,6 +46,13 @@ body {
 
     }
 
+    .photo-view {
+        .photo-container {
+            margin-bottom: 1rem;
+            min-height: 500px;
+        }
+    }
+
     .photo-list {
         float:left;
         list-style: none;
@@ -52,6 +60,7 @@ body {
         li {
             float: left;
             .is-128x128 {
+                margin: 7.5px;
                 img {
                     height: 128px;
                 }
@@ -60,6 +69,8 @@ body {
     }
 
     #photo-app {
+        padding-top: 20px;
         padding-left: 55px;
+        overflow-y: scroll;
     }
 }

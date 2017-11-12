@@ -11,7 +11,6 @@ export const isImagefile = file => file.endsWith(".png") || file.endsWith(".jpg"
 // Buffers
 export const directoryFiles$ = H.wrapCallback(fs.readdir)
 
-
 // Promises
 export const electronReady = (app) => new Promise((resolve, reject) => {
     app.on("ready", () => {
