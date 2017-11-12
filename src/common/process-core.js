@@ -1,22 +1,21 @@
 import fs from "fs"
+import { dialog } from "electron"
+import H from 'highland'
 
 export const IS_MAC = process.platform == "darwin"
 export const IS_PROD = process.env.NODE_ENV == "production" 
-import { dialog } from "electron"
 
-// promises
+// Validators
+export const isImagefile = file => file.endsWith(".png") || file.endsWith(".jpg") || file.endsWith(".jpeg")
+
+// Buffers
+export const directoryFiles$ = H.wrapCallback(fs.readdir)
+
+
+// Promises
 export const electronReady = (app) => new Promise((resolve, reject) => {
     app.on("ready", () => {
         resolve("Electron has started...")
-    })
-})
-
-export const directoryRead = (directory) => new Promise((resolve, reject) => {
-    fs.readdir(directory, {}, (err, files) => {
-        if(err)
-            reject(err)
-        else 
-            resolve({ directory: directory, files: files })
     })
 })
 

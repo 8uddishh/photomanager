@@ -1,57 +1,63 @@
 import { app,  BrowserWindow, Menu, ipcMain, dialog } from "electron"
 import url from "url"
 import path from "path"
-import { IS_MAC, IS_PROD, electronReady, directoryRead, folderOpen } from "./common/process-core"
+import { 
+            IS_MAC, IS_PROD, electronReady, folderOpen,
+            directoryRead, directoryFiles$, isImagefile
+        } from "./common/process-core"
 import fs from "fs"
+import H from 'highland'
 
-const mainMenuTemplate = [
-    {
-        label: "File",
-        submenu: [
-            {
-                label: "Open Image(s)"
-            },
-            {
-                label: "Open Folder"
-            },
-            {
-                label: "Quit",
-                accelerator: IS_MAC ? "Command+Q" : "Ctrl+Q",
-                click() {
-                    app.quit()
-                }
-            }
-        ]
-    }
-]
-
-if(!IS_PROD) {
-    mainMenuTemplate.push({
-       label: "Developer tools",
-       submenu: [
-           {
-               label: "Toggle DevTools",
-               accelerator: IS_MAC ? "Command+I" : "Ctrl+I",
-               click(item, focusedWindow) {
-                   focusedWindow.toggleDevTools()
-               }
-           },
-           {
-               //reload
-               role: 'reload'
-           }
-       ] 
-    })
-}
-
-const onDirectoryRead = ({ directory, files}, mainWindow) => {
-    files.filter(file => file.endsWith(".png") || file.endsWith(".jpg") || file.endsWith(".jpeg") )
-        .forEach(file => mainWindow.webContents.send("file:read", `${directory}/${file}`))  
+const processDirectory = mainWindow => directory => {
+    directoryFiles$(directory)
+        .sequence()
+        .filter(isImagefile)
+        .each(file => {
+            mainWindow.webContents.send("file:read", `${directory}/${file}`)
+        })
 }
 
 electronReady(app)
     .then(msg => {
-        console.log(msg)
+        
+        const mainMenuTemplate = [
+            {
+                label: "File",
+                submenu: [
+                    {
+                        label: "Open Image(s)"
+                    },
+                    {
+                        label: "Open Folder"
+                    },
+                    {
+                        label: "Quit",
+                        accelerator: IS_MAC ? "Command+Q" : "Ctrl+Q",
+                        click() {
+                            app.quit()
+                        }
+                    }
+                ]
+            }
+        ]
+        
+        if(!IS_PROD) {
+            mainMenuTemplate.push({
+               label: "Developer tools",
+               submenu: [
+                   {
+                       label: "Toggle DevTools",
+                       accelerator: IS_MAC ? "Command+I" : "Ctrl+I",
+                       click(item, focusedWindow) {
+                           focusedWindow.toggleDevTools()
+                       }
+                   },
+                   {   //reload
+                       role: 'reload'
+                   }
+               ] 
+            })
+        }
 
         let photoMainWindow = new BrowserWindow({})
         photoMainWindow.loadURL(url.format({
@@ -67,7 +73,6 @@ electronReady(app)
 
         ipcMain.on("nav:open-folder", e => {
             folderOpen(photoMainWindow, { properties: ["openDirectory"] })
-                .then(directoryRead)
-                .then(files => onDirectoryRead(files, photoMainWindow))
+                .then(processDirectory(photoMainWindow))
         })
     })
