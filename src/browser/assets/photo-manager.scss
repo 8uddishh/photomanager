@@ -9,20 +9,20 @@ $app-blue: rgb(18, 168, 243);
 $app-grey: #5e6b71;
 
 html {
-    //height: 100%;
     background-color: $app-dark-blue;
+    height: 100%;
+    max-height: 2160px;
 }
 body {
     font-family: 'Ubuntu', sans-serif !important;
-    height: 100%;
     width: 100%;
 
     .vertical-menu {
-        float:left;
-        position: absolute;
+        position: fixed;
         padding: 0px 0px;
         top: 0;
-        height: 100%;
+        bottom: 0;
+        left: 0;
         width: 55px;
         background-color: $app-black;
         color: $app-white;
@@ -30,7 +30,7 @@ body {
 
         a {
             min-height: 55px;
-            padding: 15px 10px;
+            padding: 15px;
             &:hover {
                 background-color: $app-grey;
                 .fa {
@@ -46,10 +46,15 @@ body {
 
     }
 
-    .photo-view {
-        .photo-container {
-            margin-bottom: 1rem;
-            min-height: 500px;
+    .photo-container  {
+        width: 100%;
+        max-width: 3840px;
+        padding: 10px;
+        .photo-view {
+            .column {
+                margin-bottom: 1rem;
+                min-height: 500px;
+            }
         }
     }
 
@@ -69,8 +74,6 @@ body {
     }
 
     #photo-app {
-        padding-top: 20px;
         padding-left: 55px;
-        overflow-y: scroll;
     }
 }

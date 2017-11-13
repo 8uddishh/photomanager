@@ -12,8 +12,8 @@ export class photoManageComponent extends baseComponent {
             </figure>`
         this.croppie = new Croppie($el.querySelector("#selectedImage"), {
             viewport: {
-                width: 300,
-                height: 500
+                width: 640,
+                height: 480
             }
         })
     }
