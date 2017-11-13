@@ -8,7 +8,7 @@ export class photoManageComponent extends baseComponent {
         super($el)
 
         this.imageTemplate = (file, ...figureClasses) => `<figure class="${figureClasses.reduce((curr, next) => `${curr} ${next}`)}">
-                <img src = "${encodeURI(`file://${file}`)}" />
+                <img src = "${`file://${file}`}" />
             </figure>`
         this.croppie = new Croppie($el.querySelector("#selectedImage"), {
             viewport: {

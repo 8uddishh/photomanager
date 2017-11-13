@@ -13,7 +13,8 @@ const processDirectory = mainWindow => directory => {
         .sequence()
         .filter(isImagefile)
         .each(file => {
-            mainWindow.webContents.send("file:read", `${directory}/${file}`)
+            mainWindow.webContents.send("file:read", `${ IS_MAC ? encodeURI(`${directory}/${file}`) 
+            :  `${directory}/${file}`}`)
         })
 }
 
