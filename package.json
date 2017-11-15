@@ -18,10 +18,15 @@
     "gulp-sass": "^3.1.0"
   },
   "dependencies": {
+    "axios": "^0.17.1",
+    "azure-storage": "^2.6.0",
     "bulma": "^0.6.1",
     "croppie": "^2.5.1",
     "electron": "^1.7.9",
     "font-awesome": "^4.7.0",
-    "highland": "^2.11.1"
+    "form-data": "^2.3.1",
+    "google-cloud": "^0.55.0",
+    "highland": "^2.11.1",
+    "shortid": "^2.2.8"
   }
 }

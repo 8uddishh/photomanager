@@ -3,19 +3,55 @@ import url from "url"
 import path from "path"
 import { 
             IS_MAC, IS_PROD, electronReady, folderOpen,
-            directoryRead, directoryFiles$, isImagefile
+            directoryRead, directoryFiles$, isImagefile, fileRead$, fileUpload$
         } from "./common/process-core"
 import fs from "fs"
-import H from 'highland'
+import H from "highland"
+import FormData from "form-data"
+import axios from "axios"
+import shortid from "shortid"
+import azurestr from 'azure-storage'
 
 const processDirectory = mainWindow => directory => {
-    directoryFiles$(directory)
+    const fileListStreamFromDirectory$ = directoryFiles$(directory)
         .sequence()
         .filter(isImagefile)
-        .each(file => {
-            mainWindow.webContents.send("file:read", `${ IS_MAC ? encodeURI(`${directory}/${file}`) 
-            :  `${directory}/${file}`}`)
+        .map(file => ({
+            filename: file,
+            fullfilename: IS_MAC ? `${directory}/${file}` : `${directory}\\${file}`,
+            shid: shortid.generate()
+        }))
+    
+    const fileReadStream$ = fileListStreamFromDirectory$.observe()
+                .map(file => ({
+                    stream$: fileRead$(file.fullfilename),
+                    filename: file.filename,
+                    fullfilename: file.fullfilename,
+                    shid: file.shid
+                }))
+
+    const Webupload$ = fileReadStream$.observe().map(fs$ => ({
+        seq: fs$.stream$,
+        filename: fs$.filename,
+        fullfilename: fs$.fullfilename,
+        shid: fs$.shid
+    }))
+
+    Webupload$.each(file => {
+        //console.log(new Date().getTime())
+        file.seq.each(x => {
+
         })
+    })
+
+    fileReadStream$.each(file => {
+       // console.log(file.shid)
+    })
+
+    fileListStreamFromDirectory$.each(file => {
+        mainWindow.webContents.send("file:read", `${ IS_MAC ? encodeURI(file.fullfilename) 
+            :  file.fullfilename}`)
+    })
 }
 
 electronReady(app)

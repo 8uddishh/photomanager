@@ -32,6 +32,7 @@ export class photoManageComponent extends baseComponent {
 
     settifyTriggers() { 
         ipcRenderer.on("file:read", (e, file) => {
+            //console.log(new Date().getTime())
             this.addImage(file)
         })
     }
