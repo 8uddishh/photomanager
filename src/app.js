@@ -12,6 +12,13 @@ import axios from "axios"
 import shortid from "shortid"
 import azurestr from 'azure-storage'
 
+const formData = (file) => {
+    var data = new FormData()
+    data.append('photo', file.stream$, file.filename)
+
+    return data
+}
+
 const processDirectory = mainWindow => directory => {
     const fileListStreamFromDirectory$ = directoryFiles$(directory)
         .sequence()
@@ -30,22 +37,16 @@ const processDirectory = mainWindow => directory => {
                     shid: file.shid
                 }))
 
-    const Webupload$ = fileReadStream$.observe().map(fs$ => ({
-        seq: fs$.stream$,
-        filename: fs$.filename,
-        fullfilename: fs$.fullfilename,
-        shid: fs$.shid
-    }))
+    const Webupload$ = fileReadStream$.observe().flatMap(file => {
+        return fileUpload$(formData(file))
+    })
 
-    Webupload$.each(file => {
-        //console.log(new Date().getTime())
-        file.seq.each(x => {
-
-        })
+    Webupload$.each(response => {
+        console.log(response.data)
     })
 
     fileReadStream$.each(file => {
-       // console.log(file.shid)
+       console.log(file.shid)
     })
 
     fileListStreamFromDirectory$.each(file => {

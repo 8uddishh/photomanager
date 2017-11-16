@@ -14,7 +14,10 @@ export const directoryFiles$ = H.wrapCallback(fs.readdir)
 
 export const fileRead$ = H.wrapCallback(fs.readFile)
 
-export const fileUpload$ = (data) => H(axios.post("http://localhost:3000/upload", data, {
+export const fileUpload$ = (data) => H(axios.post("http://127.0.0.1:3000/photos/upload", data, {
+    headers: {
+        'Content-Type': `multipart/form-data; boundary=${data._boundary}`
+    }
 }))
 
 // Promises
