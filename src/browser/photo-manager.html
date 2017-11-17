@@ -19,35 +19,44 @@
 
     <div id="photo-app">       
         <div class="container qk-nav-container">
-            <ul class="browser-qk-navs">
+            <ul class="browser-qk-navs horizondal-flow">
               <li id="idx-open-dropbox"><i class="fa fa-dropbox"></i></li>
               <li id="idx-folder-open"><i class="fa fa-folder-open"></i></li>
               <li id="idx-files-open"><i class="fa fa-copy"></i></li>
             </ul>
         </div>  
-        
-        <div class="container options-container">
-            <ul class="vertical-flow">
-              <li>
-                  <input class="with-gap" id="upld-by-file-name" name="upload-option" type="radio" checked="">
-                  <label for="upld-by-file-name">Identify Items By File Name</label>
-              </li>
-              <li>
-                  <input class="with-gap" id="upld-by-bar-code" name="upload-option" type="radio" checked="">
-                  <label for="upld-by-bar-code">Identify Items By Bar code</label>
-              </li>
-              <li>
-                  <input class="with-gap" id="upld-by-exif" name="upload-option" type="radio" checked="">
-                  <label for="upld-by-exif">Identify Items By Exif Meta Data</label>
-              </li>
-              <li>
-                  <input class="with-gap" id="upld-aft-crop" name="upload-option" type="radio" checked="">
-                  <label for="upld-aft-crop">Enable Crop/Resize</label>
-              </li>
-            </ul>
-        </div>
 
-        <div class="container identifier-container">
+        <div class="container header-container">
+            <div class="is-uppercase">
+                upload options
+            </div>
+        </div>
+        <div class="container default-container">
+            <ul class="vertical-flow">
+                <li>
+                    <input class="with-gap" id="upld-by-file-name" name="upload-option" type="radio" checked="">
+                    <label for="upld-by-file-name">Identify Items By File Name</label>
+                </li>
+                <li>
+                    <input class="with-gap" id="upld-by-bar-code" name="upload-option" type="radio" checked="">
+                    <label for="upld-by-bar-code">Identify Items By Bar code</label>
+                </li>
+                <li>
+                    <input class="with-gap" id="upld-by-exif" name="upload-option" type="radio" checked="">
+                    <label for="upld-by-exif">Identify Items By Exif Meta Data</label>
+                </li>
+                <li>
+                    <input class="with-gap" id="upld-aft-crop" name="upload-option" type="radio" checked="">
+                    <label for="upld-aft-crop">Enable Crop/Resize</label>
+                </li>
+              </ul>
+        </div>
+        <div class="container header-container">
+            <div class="is-uppercase">
+                upload to
+            </div>
+        </div>
+        <div class="container default-container">
             <ul class="vertical-flow">
               <li>
                   <input class="with-gap" id="idn-by-sku" name="identifier-option" type="radio" checked="">
@@ -89,11 +98,17 @@
         </div>
     </div>
     <nav class="navbar is-bottom" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          footer
-        </div>
-        <div class="navbar-end">
-          </div>
+        <ul class="horizondal-flow footer-icons">
+            <li>
+                  <a class="button" href="#settings"><i class="fa fa-cog"></i></a>
+            </li>
+            <li>
+                  <a class="button" href="#queued"><i class="fa fa-sliders"></i></a>
+          </li>
+          <li>
+              <a class="button" href="#notifications"><i class="fa fa-bell"></i></a>
+          </li>
+        </ul>
       </nav>
       
     <script src="browser.js"></script>
