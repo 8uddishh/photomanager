@@ -1,4 +1,4 @@
-import { app,  BrowserWindow, Menu, ipcMain, dialog } from "electron"
+import { app,  BrowserWindow, Menu, ipcMain, dialog, Tray } from "electron"
 import url from "url"
 import path from "path"
 import { 
@@ -10,7 +10,9 @@ import H from "highland"
 import FormData from "form-data"
 import axios from "axios"
 import shortid from "shortid"
-import azurestr from 'azure-storage'
+
+
+const assetsDirectory = path.join(__dirname, "browser", "assets")
 
 const formData = (file) => {
     var data = new FormData()
@@ -18,6 +20,76 @@ const formData = (file) => {
 
     return data
 }
+
+const toggleWindow = (window, tray) => {
+    if (window.isVisible()) {
+      window.hide()
+    } else {
+      showWindow(window, tray)
+    }
+  }
+
+  // need separate implementation for mac
+const getWindowPosition = (window, tray) => {
+    const windowBounds = window.getBounds()
+    const trayBounds = tray.getBounds()
+  
+    const x = Math.round(trayBounds.x - (windowBounds.width - 50))
+  
+    const y = Math.round(trayBounds.y - windowBounds.height)
+  
+    return {x: x, y: y}
+  }
+
+const createTray = (window) => {
+    let tray = new Tray(path.join(assetsDirectory, "images", "Geography-128.png"))
+    tray.on("right-click", e => {
+        toggleWindow(window, tray)
+    })
+
+    tray.on("double-click", e => {
+        toggleWindow(window, tray)
+    })
+
+    tray.on("click", e => {
+        toggleWindow(window, tray)
+    })
+
+    const contextMenu = Menu.buildFromTemplate([
+        {
+            label: "Show/Hide Window",
+            click: () => {
+                toggleWindow(window, tray)
+            }
+        }, {
+            label: "Toggle DevTools",
+            accelerator: IS_MAC ? "Command+I" : "Ctrl+I",
+            //type: 'radio',
+            click: () => {
+                showWindow(window, tray)
+                window.toggleDevTools()
+            }
+        }, {
+            label: 'Quit', 
+            accelerator: IS_MAC ? "Command+Q" : "Ctrl+Q",
+            //type: 'radio',
+            click: () => {
+                app.quit()
+            }
+        }
+      ])
+
+    tray.setToolTip('Gojiraaaaaaaaaaaa')
+    tray.setContextMenu(contextMenu)
+    return tray
+}
+
+const showWindow = (window, tray) => {
+    const position = getWindowPosition(window, tray)
+    window.setPosition(position.x, position.y, false)
+    window.show()
+    window.focus()
+  }
 
 const processDirectory = mainWindow => directory => {
     const fileListStreamFromDirectory$ = directoryFiles$(directory)
@@ -58,7 +130,39 @@ const processDirectory = mainWindow => directory => {
 electronReady(app)
     .then(msg => {
         
-        const mainMenuTemplate = [
+        let photoMainWindow = new BrowserWindow({
+            width: 450,
+            height: 650,
+            show: false,
+            frame: false,
+            fullscreenable: false,
+            resizable: false
+        })
+
+        photoMainWindow.loadURL(url.format({
+            pathname: path.join(__dirname, "browser", "photo-manager.html"),
+            protocol: "file:",
+            slashes: true
+        }))
+
+        photoMainWindow.on('blur', () => {
+            if (!photoMainWindow.webContents.isDevToolsOpened()) {
+                photoMainWindow.hide()
+            }
+        })
+
+        createTray (photoMainWindow)
+
+        ipcMain.on("nav:open-folder", e => {
+            folderOpen(photoMainWindow, { properties: ["openDirectory"] })
+                .then(processDirectory(photoMainWindow))
+        })
+    })
+
+
+/*
+
+    const mainMenuTemplate = [
             {
                 label: "File",
                 submenu: [
@@ -78,8 +182,8 @@ electronReady(app)
                 ]
             }
         ]
-        
-        if(!IS_PROD) {
+
+    if(!IS_PROD) {
             mainMenuTemplate.push({
                label: "Developer tools",
                submenu: [
@@ -97,20 +201,9 @@ electronReady(app)
             })
         }
 
-        let photoMainWindow = new BrowserWindow({})
-        photoMainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, "browser", "photo-manager.html"),
-            protocol: "file:",
-            slashes: true
-        }))
 
-        photoMainWindow.maximize()
 
-        let mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
-        Menu.setApplicationMenu(mainMenu)
+    let mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
+    Menu.setApplicationMenu(mainMenu)
 
-        ipcMain.on("nav:open-folder", e => {
-            folderOpen(photoMainWindow, { properties: ["openDirectory"] })
-                .then(processDirectory(photoMainWindow))
-        })
-    })
+*/

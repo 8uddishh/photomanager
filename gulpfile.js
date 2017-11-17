@@ -27,12 +27,17 @@ gulp.task("fonts", () => {
         .pipe(gulp.dest(`${destination}/browser/assets/fonts`))
 })
 
+gulp.task("images", () => {
+    return gulp.src("src/browser/assets/**/*.png")
+        .pipe(gulp.dest(`${destination}/browser/assets`))
+})
+
 gulp.task("htmls", () => {
     return gulp.src("src/browser/**/*.html")
         .pipe(gulp.dest(`${destination}/browser`))
 })
 
-gulp.task('dev', ["es6toes5", "sass", "fonts", "htmls"])
+gulp.task('dev', ["es6toes5", "sass", "fonts", "images", "htmls"])
 
 // () => {
 //     gulp.watch("src/**/*.js", ["es6toes5"])

@@ -6,32 +6,63 @@
     <link rel="stylesheet" href="assets/css/photo-manager.css">
 </head>
 <body>
-        <div class="vertical-menu" >
-                <aside class="menu">
-                    <ul class="menu-list">
-                      <li><a title="Open folder" id="opn-folder"><span class="fa fa-folder-open"></span></a></li>
-                      <li><a title="Open file(s)"><span class="fa fa-files-o"></span></a></li>
-                      <li><a title="Upload folder"><span class="fa fa-upload"></span></a></li>
-                      <li><a title="Upload file(s)"><span class="fa fa-cloud-upload"></span></a></li>
-                      <li><a title="Upload status"><span class="fa fa-clock-o"></span></a></li>
-                    </ul>
-                  </aside>
-              </div> 
-    <div id="photo-app">
-        <div class="container photo-container">
-            <div class="columns photo-view" id="photo-view">
-                <div class="column is-three-quarters" >
-                    <img id="selectedImage">
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                  Gojira
                 </div>
-            </div>
-            <div class="columns">
-                    <div class="column">
-                            <ul id="photo-list" class="photo-list">
-                                </ul>  
-                    </div>
-                </div>
-        </div>
+                <div class="navbar-end">
+                    <a href="#" id="browser-close" class="delete">
+                    </a>
+                  </div>
+              </nav>
               
+
+    <div id="photo-app">       
+        <div class="container qk-nav-container">
+            <ul class="browser-qk-navs">
+              <li id="idx-open-dropbox"><i class="fa fa-dropbox"></i></li>
+              <li id="idx-folder-open"><i class="fa fa-folder-open"></i></li>
+              <li id="idx-files-open"><i class="fa fa-copy"></i></li>
+            </ul>
+        </div>  
+        
+        <div class="container options-container">
+            <ul class="vertical-flow">
+              <li>
+                  <input class="with-gap" id="upld-by-file-name" name="upload-option" type="radio" checked="">
+                  <label for="upld-by-file-name">Identify Items By File Name</label>
+              </li>
+              <li>
+                  <input class="with-gap" id="upld-by-bar-code" name="upload-option" type="radio" checked="">
+                  <label for="upld-by-bar-code">Identify Items By Bar code</label>
+              </li>
+              <li>
+                  <input class="with-gap" id="upld-by-exif" name="upload-option" type="radio" checked="">
+                  <label for="upld-by-exif">Identify Items By Exif Meta Data</label>
+              </li>
+              <li>
+                  <input class="with-gap" id="upld-aft-crop" name="upload-option" type="radio" checked="">
+                  <label for="upld-aft-crop">Enable Crop/Resize</label>
+              </li>
+            </ul>
+        </div>
+
+        <div class="container identifier-container">
+            <ul class="vertical-flow">
+              <li>
+                  <input class="with-gap" id="idn-by-sku" name="identifier-option" type="radio" checked="">
+                  <label for="idn-by-sku">Identifier is SKU</label>
+              </li>
+              <li>
+                  <input class="with-gap" id="idn-by-dtid" name="identifier-option" type="radio" checked="">
+                  <label for="idn-by-dtid">Identifier is DTID</label>
+              </li>
+              <li>
+                  <input class="with-gap" id="idn-by-lot" name="identifier-option" type="radio" checked="">
+                  <label for="idn-by-lot">Identifier is LOT</label>
+              </li>
+            </ul>
+        </div>
     </div>
     <script src="browser.js"></script>
 </body>
