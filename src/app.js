@@ -131,8 +131,10 @@ electronReady(app)
     .then(msg => {
         
         let photoMainWindow = new BrowserWindow({
-            width: 450,
-            height: 650,
+            // width: 450,
+            // height: 650,
+            width: 375,
+            height: 633,
             show: false,
             frame: false,
             fullscreenable: false,

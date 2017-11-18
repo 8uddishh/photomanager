@@ -12,75 +12,96 @@ export class settingsComponent extends baseComponent {
 
     get $template(){
         return `
-    <div class="container header-container">
-        <div class="is-uppercase">
-            upload options
+        <div class="dropdown accordion is-active">
+        <div class="dropdown-trigger">
+          <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+            <div class="is-uppercase">folder(s) configuration</div>
+            <div class="icon">
+              <a class="button is-link">Add</a>
+            </div>
+            <div class="icon">
+              <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </div>
+          </button>
         </div>
-    </div>
-    <div class="container default-container">
-        <ul class="vertical-flow">
-            <li>
-                <input class="with-gap" id="upld-by-file-name" name="upload-option" type="radio" checked>
-                <label for="upld-by-file-name">Identify Items By File Name</label>
-            </li>
-            <li>
-                <input class="with-gap" disabled id="upld-by-bar-code" name="upload-option" type="radio">
-                <label for="upld-by-bar-code">Identify Items By Bar code</label>
-            </li>
-            <li>
-                <input class="with-gap" id="upld-by-exif" name="upload-option" type="radio">
-                <label for="upld-by-exif">Identify Items By Exif Meta Data</label>
-            </li>
-            <li>
-                <input class="with-gap" id="upld-aft-crop" name="upload-option" type="radio">
-                <label for="upld-aft-crop">Enable Crop/Resize</label>
-            </li>
-          </ul>
-    </div>
-    <div class="container header-container">
-        <div class="is-uppercase">
-            upload to
-        </div>
-    </div>
-    <div class="container default-container">
-        <ul class="vertical-flow">
-          <li>
-              <input class="with-gap" id="idn-by-sku" name="identifier-option" type="radio" checked>
-              <label for="idn-by-sku">Identifier is SKU</label>
+        <div class="dropdown-menu is-shadow" id="dropdown-menu" role="menu">
+        <ul class="dropdown-content vertical-flow">
+          <li class="dropdown-item">
+          Folder #1 <a class="button icon remove" ><i class="fa fa-minus-circle"></i></a>
           </li>
-          <li>
-              <input class="with-gap" disabled id="idn-by-dtid" name="identifier-option" type="radio">
-              <label for="idn-by-dtid">Identifier is DTID</label>
-          </li>
-          <li>
-              <input class="with-gap" id="idn-by-lot" name="identifier-option" type="radio">
-              <label for="idn-by-lot">Identifier is LOT</label>
+          <li class="dropdown-item">
+          Folder #2 <a class="button icon remove" ><i class="fa fa-minus-circle"></i></a>
           </li>
         </ul>
-    </div>
-    <div class="container status-container">
-        <div class="field is-grouped is-grouped-multiline">
-            <div class="control">
-              <div class="tags has-addons">
-                <span class="tag is-info">Total</span>
-                <span class="tag is-dark">0</span>
-              </div>
-            </div>
-          
-            <div class="control">
-              <div class="tags has-addons">
-                <span class="tag is-success">Success</span>
-                <span class="tag is-dark">0</span>
-              </div>
-            </div>
-          
-            <div class="control">
-              <div class="tags has-addons">
-                <span class="tag is-danger">Failed</span>
-                <span class="tag is-dark">0</span>
-              </div>
-            </div>
+        </div>
+      </div>
+
+      <div class="dropdown accordion is-active">
+      <div class="dropdown-trigger">
+        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+          <div class="is-uppercase" style="width:73%">security settings</div>
+          <div class="icon">
+            <a class="button is-link">Change auth code</a>
           </div>
-    </div>`
+          <div class="icon">
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </div>
+        </button>
+      </div>
+      <div class="dropdown-menu is-shadow" id="dropdown-menu" role="menu">
+        <ul class="dropdown-content vertical-flow">
+          <li class="dropdown-item">
+          Authorization status
+          <span class="tag is-success">Registered</span>
+          <span class="tag is-danger" style="display:none">Expired</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dropdown accordion is-active">
+    <div class="dropdown-trigger">
+      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+        <div class="is-uppercase">notifications</div>
+        <div class="icon">
+          <i class="fa fa-angle-down" aria-hidden="true"></i>
+        </div>
+      </button>
+    </div>
+    <div class="dropdown-menu is-shadow" id="dropdown-menu" role="menu">
+    <ul class="dropdown-content vertical-flow">
+      <li class="dropdown-item">
+       Show live notifications
+       <div class="switch is-pulled-right">
+       <label>
+         Off
+         <input checked type="checkbox">
+         <span class="lever"></span>
+         On
+       </label>
+     </div>
+      </li>
+    </ul>
+    </div>
+  </div>
+
+  <div class="dropdown accordion is-active">
+  <div class="dropdown-trigger">
+    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+      <div class="is-uppercase">diagnostics</div>
+      <div class="icon">
+        <i class="fa fa-angle-down" aria-hidden="true"></i>
+      </div>
+    </button>
+  </div>
+  <div class="dropdown-menu is-shadow" id="dropdown-menu" role="menu">
+    <ul class="dropdown-content vertical-flow">
+      <li class="dropdown-item">
+      Diagonise the tool <a class="button icon diagonize" ><i class="fa fa-flask"></i></a>
+      </li>
+    </ul>
+  </div>
+</div>
+    `
     }
 }

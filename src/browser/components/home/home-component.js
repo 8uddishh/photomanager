@@ -17,7 +17,7 @@ export class homeComponent extends baseComponent {
             upload options
         </div>
     </div>
-    <div class="container default-container">
+    <div class="container default-container is-shadow">
         <ul class="vertical-flow">
             <li>
                 <input class="with-gap" id="upld-by-file-name" name="upload-option" type="radio" checked>
@@ -42,7 +42,7 @@ export class homeComponent extends baseComponent {
             upload to
         </div>
     </div>
-    <div class="container default-container">
+    <div class="container default-container is-shadow">
         <ul class="vertical-flow">
           <li>
               <input class="with-gap" id="idn-by-sku" name="identifier-option" type="radio" checked>
