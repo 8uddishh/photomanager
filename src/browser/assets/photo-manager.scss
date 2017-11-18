@@ -6,32 +6,56 @@ $app-legend: #ccc;
 $app-white: #fff;
 $app-black: #252525;
 $app-dark-blue: #215b7d;
-$app-light-blue: #2AAce3;
-$app-blue: rgb(18, 168, 243);
-$app-grey: #5e6b71;
+
+// delete
 $app-red: #EB3030;
-
-$app-text-grey: #9a9494;
-$app-text-light-grey: #b6cbe0;
-$app-input-selected: #26a69a;
-$app-input-selected2: #00251e;
-
 $app-close-hover: #decdcd;
 
 $app-info-color: #0d293c;
 $app-success-color: #055220;
 $app-danger-color: #b90a0a;
 
+// icons
+$app-icon-blue: #0d8de4;
+$app-icon-green: #049a39;
+$app-icon-yellow: #c5a52a;
+$app-icon-grey: #949390;
+
+//unused 
+$app-light-blue: #2AAce3;
+$app-blue: rgb(18, 168, 243);
+$app-grey: #5e6b71;
+$app-text-grey: #9a9494;
+$app-text-light-grey: #b6cbe0;
+$app-input-selected: #26a69a;
+$app-input-selected2: #00251e;
 $app-light-green: #8ec640;
 
-html {
-    background-color: $app-dark-blue;
-    height: 100%;
-    max-height: 2160px;
-}
 body {
-    font-family: 'Ubuntu', sans-serif !important;
+    font-family: 'Lato', sans-serif !important;
     width: 100%;
+    min-height: 600px;
+
+    &.home {
+        background-color: $app-dark-blue;
+    }
+
+    &.settings {
+        background-color: $app-icon-yellow;
+    }
+
+    &.queues {
+        background-color: $app-icon-green;
+    }
+
+    &.notifications {
+        background-color: $app-icon-blue;
+    }
+
+    &.dragdrop {
+        background-color: $app-icon-grey;
+    }
+    
 
     &::-webkit-scrollbar {
         display: none;
@@ -60,7 +84,7 @@ body {
         display: inline-block;
         height: 25px;
         line-height: 25px;
-        font-size: 0.85em;;
+        font-size: 0.82em;;
         -webkit-transition: .28s ease;
         transition: .28s ease;
         -webkit-user-select: none;
@@ -70,7 +94,7 @@ body {
     }
 
     [type="radio"]:checked+label {
-        color: $app-input-selected
+        color: $app-dark-blue;
     }
     
     [type="radio"]+label:before,[type="radio"]+label:after {
@@ -104,11 +128,11 @@ body {
     }
     
     [type="radio"]:checked+label:after,[type="radio"].with-gap:checked+label:before,[type="radio"].with-gap:checked+label:after {
-        border: 2px solid $app-input-selected
+        border: 2px solid $app-dark-blue
     }
     
     [type="radio"]:checked+label:after,[type="radio"].with-gap:checked+label:after {
-        background-color: $app-input-selected
+        background-color: $app-dark-blue
     }
     
     [type="radio"]:checked+label:after {
@@ -201,13 +225,11 @@ body {
 
         &.is-top {
             top: 0;
-            //background-color: $app-light-blue;
         }
 
         &.is-bottom {
             bottom: 0;
-            
-            min-height: 72px;
+            min-height: 65px;
         }
 
         .navbar-brand {
@@ -233,33 +255,6 @@ body {
                 }
             }
         }
-    }
-
-    .vertical-menu {
-        position: fixed;
-        padding: 0px 0px;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 55px;
-        
-
-        a {
-            min-height: 55px;
-            padding: 15px;
-            &:hover {
-                background-color: $app-grey;
-                .fa {
-                    color: darken($app-blue, 0.5);
-                }
-            }
-        }
-
-        .fa {
-            font-size: 1.5em;
-            color: $app-white;
-        }
-
     }
 
     .qk-nav-container  {
@@ -307,7 +302,7 @@ body {
     .header-container {
         color: $app-legend;
         padding: 25px 10px 8px 10px;
-        font-size: 0.8em;
+        font-size: 0.75em;
     }
 
     .default-container {
@@ -373,10 +368,70 @@ body {
     }
 
     .footer-icons {
+        padding: 10px 15px;
         a {
-            border: 1px $app-input-selected solid;
+            display: inline-block;
+            border: 1px $app-dark-blue solid;
             border-radius: 50%;
-            padding: 23px 12px;
+            padding: 10px;
+            min-width: 45px;
+            min-height: 45px;
+            transition: all 0.5s ease-in;
+            background-color: transparent;
+
+            &:hover {
+                color: $app-white;
+            }
+
+            &.btn-dragdrop {
+                color: $app-icon-grey;
+                border: 1px $app-icon-grey solid;
+
+                &:hover, &.active { 
+                   background-color: $app-icon-grey;
+                   color: $app-white;
+                }
+            }
+            
+            &.btn-notifications {
+                color: $app-icon-blue;
+                border: 1px $app-icon-blue solid;
+
+                &:hover, &.active { 
+                   background-color: $app-icon-blue;
+                   color: $app-white;
+                }
+            }
+
+            &.btn-queues {
+                color: $app-icon-green;
+                border: 1px $app-icon-green solid;
+
+                &:hover, &.active { 
+                   background-color: $app-icon-green;
+                   color: $app-white;
+                }
+            }
+
+            &.btn-settings {
+                color: $app-icon-yellow;
+                border: 1px $app-icon-yellow solid;
+
+                &:hover, &.active { 
+                   background-color: $app-icon-yellow;
+                   color: $app-white;
+                }
+            }
+
+            &.btn-home {
+                color: $app-dark-blue;
+                border: 1px $app-dark-blue solid;
+
+                &:hover, &.active { 
+                   background-color: $app-dark-blue;
+                   color: $app-white;
+                }
+            }
 
             .fa {
                 font-size: 1.5rem;
@@ -399,7 +454,7 @@ body {
         }
     }
 
-    #photo-app {
+    .app {
         margin-top: 35px;
     }
 }

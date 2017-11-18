@@ -1,7 +1,12 @@
 export class baseComponent {
     
-    constructor ($el) {
+    constructor ($el, $link) {
         this.$el = $el
+        this.$link = $link
+    }
+
+    get $template (){
+        return ""
     }
 
     settifyTriggers() { }

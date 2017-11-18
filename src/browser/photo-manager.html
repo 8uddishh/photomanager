@@ -1,115 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Photo Manager</title>
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu&amp;subset=cyrillic-ext" rel="stylesheet">
+    <title>Code name :: Gojira</title>
+    <!-- <link href="https://fonts.googleapis.com/css?family=Ubuntu&amp;subset=cyrillic-ext" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/photo-manager.css">
 </head>
 <body>
         <nav class="navbar is-top" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand">
-                  Gojira
+                  Code name :: Gojira
                 </div>
                 <div class="navbar-end">
-                    <a href="#" id="browser-close" class="delete">
+                    <a id="browser-close" class="delete">
                     </a>
                   </div>
               </nav>
-              
-
-    <div id="photo-app">       
+    
+ <div class="app">
         <div class="container qk-nav-container">
-            <ul class="browser-qk-navs horizondal-flow">
-              <li id="idx-open-dropbox"><i class="fa fa-dropbox"></i></li>
-              <li id="idx-folder-open"><i class="fa fa-folder-open"></i></li>
-              <li id="idx-files-open"><i class="fa fa-copy"></i></li>
-            </ul>
-        </div>  
-
-        <div class="container header-container">
-            <div class="is-uppercase">
-                upload options
+                <ul class="browser-qk-navs horizondal-flow">
+                  <li id="idx-open-dropbox"><i class="fa fa-dropbox"></i></li>
+                  <li id="idx-folder-open"><i class="fa fa-folder-open"></i></li>
+                  <li id="idx-files-open"><i class="fa fa-copy"></i></li>
+                </ul>
             </div>
-        </div>
-        <div class="container default-container">
-            <ul class="vertical-flow">
-                <li>
-                    <input class="with-gap" id="upld-by-file-name" name="upload-option" type="radio" checked="">
-                    <label for="upld-by-file-name">Identify Items By File Name</label>
-                </li>
-                <li>
-                    <input class="with-gap" id="upld-by-bar-code" name="upload-option" type="radio" checked="">
-                    <label for="upld-by-bar-code">Identify Items By Bar code</label>
-                </li>
-                <li>
-                    <input class="with-gap" id="upld-by-exif" name="upload-option" type="radio" checked="">
-                    <label for="upld-by-exif">Identify Items By Exif Meta Data</label>
-                </li>
-                <li>
-                    <input class="with-gap" id="upld-aft-crop" name="upload-option" type="radio" checked="">
-                    <label for="upld-aft-crop">Enable Crop/Resize</label>
-                </li>
-              </ul>
-        </div>
-        <div class="container header-container">
-            <div class="is-uppercase">
-                upload to
-            </div>
-        </div>
-        <div class="container default-container">
-            <ul class="vertical-flow">
-              <li>
-                  <input class="with-gap" id="idn-by-sku" name="identifier-option" type="radio" checked="">
-                  <label for="idn-by-sku">Identifier is SKU</label>
-              </li>
-              <li>
-                  <input class="with-gap" id="idn-by-dtid" name="identifier-option" type="radio" checked="">
-                  <label for="idn-by-dtid">Identifier is DTID</label>
-              </li>
-              <li>
-                  <input class="with-gap" id="idn-by-lot" name="identifier-option" type="radio" checked="">
-                  <label for="idn-by-lot">Identifier is LOT</label>
-              </li>
-            </ul>
-        </div>
-        <div class="container status-container">
-            <div class="field is-grouped is-grouped-multiline">
-                <div class="control">
-                  <div class="tags has-addons">
-                    <span class="tag is-info">Total</span>
-                    <span class="tag is-dark">0</span>
-                  </div>
-                </div>
-              
-                <div class="control">
-                  <div class="tags has-addons">
-                    <span class="tag is-success">Success</span>
-                    <span class="tag is-dark">0</span>
-                  </div>
-                </div>
-              
-                <div class="control">
-                  <div class="tags has-addons">
-                    <span class="tag is-danger">Failed</span>
-                    <span class="tag is-dark">0</span>
-                  </div>
-                </div>
-              </div>
-        </div>
+    <div id="photo-app">       
+        
     </div>
+ </div>             
+              
     <nav class="navbar is-bottom" role="navigation" aria-label="main navigation">
         <ul class="horizondal-flow footer-icons">
             <li>
-                  <a class="button" href="#settings"><i class="fa fa-cog"></i></a>
+                  <a id="btn-settings" class="button btn-settings" href="#settings"><i class="fa fa-cog"></i></a>
             </li>
             <li>
-                  <a class="button" href="#queued"><i class="fa fa-sliders"></i></a>
+                  <a id="btn-queues" class="button btn-queues" href="#queues"><i class="fa fa-sliders"></i></a>
           </li>
           <li>
-              <a class="button" href="#notifications"><i class="fa fa-bell"></i></a>
+              <a id="btn-home" class="button btn-home active" href="#home"><i class="fa fa-home"></i></a>
           </li>
           <li>
-            <a class="button" href="#report"><i class="fa fa-flag"></i></a>
+            <a id="btn-dragdrop" class="button btn-dragdrop" href="#dragdrop"><i class="fa fa-bolt"></i></a>
+          </li>
+          <li>
+            <a id="btn-notifications" class="button btn-notifications" href="#notifications"><i class="fa fa-bell"></i></a>
         </li>
         </ul>
       </nav>
