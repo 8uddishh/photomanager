@@ -1,3 +1,5 @@
+$progress-bar-background-color: rgb(221, 220, 220);
+
 @import "bulma";
 @import "font-awesome";
 @import "croppie";
@@ -140,15 +142,88 @@ body {
                     border-radius: 0;
                     padding: 10px;
 
-                    .dropdown-item {
-                        .title {
-                            font-size: 0.875rem;
-                            padding: 0px 0px 2px 0px;
-                            color: #4a4a4a;
+                    &.in-progress-queues {
+                        .dropdown-item:first-of-type {
+                            .pull-left {
+                                width: 100%;
+                                .padding-before-progress {
+                                    margin-bottom: 24px !important;
+                                }
+                            }
+                            
                         }
-                        .subtitle {
-                            font-size: 0.65rem;
-                            color: $app-text-grey;
+                    }
+
+                    &.processed-queue {
+                        .dropdown-item {
+                            .pull-left {
+                                width: 100%;
+
+                                .tag {
+                                    height: 1.45em;
+                                    margin: 0px 0px 2px 5px;
+                                
+                                    &.is-success {
+                                        background-color: $app-icon-queue;
+                                    }
+                                
+                                    &.is-danger {
+                                        background-color: $app-danger-color ;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .dropdown-item {
+                        .pull-left {
+                            min-width: 250px !important;
+                            .title {
+                                font-size: 0.875rem;
+                                padding: 0px 0px 2px 0px;
+                                color: #4a4a4a;
+                                
+                                &.padding-before-progress {
+                                    padding: 0px 0px 4px 0px;
+                                    margin: 0;
+
+                                    .tag {
+                                        height: 1.45em;
+                                        margin: 0px 0px 2px 5px;
+                                    
+                                        &.is-success {
+                                            background-color: $app-icon-queue;
+                                        }
+                                    
+                                        &.is-danger {
+                                            background-color: $app-danger-color ;
+                                        }
+                                    }
+                                }
+                            }
+                            .subtitle {
+                                font-size: 0.65rem;
+                                color: $app-text-grey;
+                            }
+                        }
+
+                        .progress {
+                            border-radius: 0;
+                            height: 0.3rem;
+
+                            &.is-success {
+                                &::-webkit-progress-value {
+                                    background-color: $app-dark-blue;
+                                  }
+                                  
+                                  &::-moz-progress-bar {
+                                    background-color: $app-dark-blue;
+                                  }
+                                  
+                                  &::-ms-fill {
+                                    background-color: $app-dark-blue;
+                                  }
+                            }
                         }
                     }
 
@@ -172,6 +247,10 @@ body {
                         }
                         &.remove {
                             color: #EB3030;
+                        }
+
+                        &.run {
+                            color: $app-success-color;
                         }
 
                         &.diagonize {
