@@ -4,6 +4,14 @@ $progress-bar-background-color: rgb(221, 220, 220);
 @import "font-awesome";
 @import "croppie";
 
+@keyframes upndown {
+    0%   { color: #0c6f5d; top: -40px; }
+    25%  { color: rgba(12, 111, 93, 0.85); top: -40px; }
+    50%  { color: rgba(12, 111, 93, 0.6); top: -80px; }
+    75%  { color: rgba(12, 111, 93, 0.85); top: -80px; }
+    100% { color: #0c6f5d; top: -40px; }
+}
+
 $app-legend: #ccc;
 $app-white: #fff;
 $app-black: #252525;
@@ -812,11 +820,10 @@ body {
                     }
 
                     .fa-flash {
-                        color: $app-success-color;
                         position: absolute; 
                         left:55px; 
-                        top: -20px; 
-                        z-index: 20
+                        z-index: 20;
+                        animation: upndown 3s infinite ease-in-out;
                     }
 
                     .drop-text {
