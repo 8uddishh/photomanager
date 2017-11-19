@@ -122,7 +122,7 @@ export class queuesComponent extends baseComponent {
                 read write delete
             </div>
             </div>
-            <a class="button icon run pull-right" ><i class="fa fa-chevron-circle-right"></i></a>
+            <a class="button icon run pull-right" ><i class="fa fa-play-circle"></i></a>
         </li>
         <li class="dropdown-item">
             <div class="pull-left">
@@ -133,7 +133,7 @@ export class queuesComponent extends baseComponent {
             read write delete
             </div>
             </div>
-            <a class="button icon run pull-right" ><i class="fa fa-chevron-circle-right"></i></a>
+            <a class="button icon run pull-right" ><i class="fa fa-play-circle"></i></a>
         </li>
       </ul>
       </div>

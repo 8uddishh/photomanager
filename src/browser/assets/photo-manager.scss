@@ -9,6 +9,7 @@ $app-white: #fff;
 $app-black: #252525;
 $app-dark-blue: #215b7d;
 $app-text-grey: #9a9494;
+$app-next-color: #8bafea;
 
 // delete
 $app-red: #EB3030;
@@ -23,6 +24,9 @@ $app-icon-setting: #4267b2;
 $app-icon-queue: #049a39;
 $app-icon-dragdrop: #296d54;
 $app-icon-notification: #514896;
+
+// dragdrop
+$app-file-drag-drop-bkground: rgba(77, 144, 100, 0.7);
 
 //unused 
 $app-light-blue: #2AAce3;
@@ -45,6 +49,10 @@ body {
     select,
     textarea {
         font-family: 'Lato', sans-serif !important;
+    }
+
+    .fa-6x {
+        font-size: 6em;
     }
 
     .is-shadow {
@@ -779,7 +787,47 @@ body {
         background-color: $app-white;
         padding: 10px;
         position:relative;
+
+        &.dragdrop {
+            .dropzone {
+                min-height: 300px;
+                border: 1px $app-icon-dragdrop dashed;
+                background: $app-file-drag-drop-bkground;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center; 
+                flex-direction: column; 
+
+                .drag-drop-block {
+                    align-items: center;
+                    max-width: 50%;
+                    position: relative;
+
+                    .fa-cloud {
+                        position: absolute; 
+                        left:15px;
+                        top: -50px; 
+                        z-index:5
+                    }
+
+                    .fa-flash {
+                        color: $app-success-color;
+                        position: absolute; 
+                        left:55px; 
+                        top: -20px; 
+                        z-index: 20
+                    }
+
+                    .drop-text {
+                        position: relative;
+                        top: 25px
+                    }
+                }
+            }
+        }
     }
+
 
     .status-container {
         padding: 20px;
@@ -804,6 +852,23 @@ body {
 
             .is-dark {
                 background-color: $app-black;
+            }
+
+            .next-button {
+                padding: 0px 9px;
+                font-size: 0.75rem;
+                font-weight: normal;
+                border-color: $app-next-color;
+                color: $app-next-color;
+
+                .icon-right {
+                    padding-left: 5px;
+                }
+
+                &:hover {
+                    background-color: $app-next-color;
+                    color: $app-black;
+                }
             }
         }
     }
