@@ -81,6 +81,15 @@ body {
         .dropdown {
             width: 100%;
             display: block;
+
+            &.is-active {
+
+                .dropdown-menu {
+                    position: relative;
+                    left: 0px;
+                }
+                
+            }
             .dropdown-trigger {
                 width: 100%;
 
@@ -122,6 +131,10 @@ body {
                 position: relative;
                 top: 0;
                 z-index: auto;
+                position:absolute;
+                left:-400px;
+                display: block;
+                transition: all 0.5s ease-in-out;
 
                 .dropdown-content {
                     border-radius: 0;
