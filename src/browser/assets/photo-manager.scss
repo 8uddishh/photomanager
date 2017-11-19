@@ -6,6 +6,7 @@ $app-legend: #ccc;
 $app-white: #fff;
 $app-black: #252525;
 $app-dark-blue: #215b7d;
+$app-text-grey: #9a9494;
 
 // delete
 $app-red: #EB3030;
@@ -25,7 +26,7 @@ $app-icon-notification: #514896;
 $app-light-blue: #2AAce3;
 $app-blue: rgb(18, 168, 243);
 $app-grey: #5e6b71;
-$app-text-grey: #9a9494;
+
 $app-text-light-grey: #b6cbe0;
 $app-input-selected: #26a69a;
 $app-input-selected2: #00251e;
@@ -76,8 +77,8 @@ body {
         }
     }
 
-    .dropdown {
-        &.accordion {
+    .accordion {
+        .dropdown {
             width: 100%;
             display: block;
             .dropdown-trigger {
@@ -127,7 +128,15 @@ body {
                     padding: 10px;
 
                     .dropdown-item {
-                        
+                        .title {
+                            font-size: 0.875rem;
+                            padding: 0px 0px 2px 0px;
+                            color: #4a4a4a;
+                        }
+                        .subtitle {
+                            font-size: 0.65rem;
+                            color: $app-text-grey;
+                        }
                     }
 
                     .tag {

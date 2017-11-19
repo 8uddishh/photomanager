@@ -13,7 +13,6 @@ export class baseComponent {
     settifyWidgets() { }
 
     settify () {
-        console.log(this.$el)
         this.settifyTriggers()
         this.settifyWidgets()
     }
