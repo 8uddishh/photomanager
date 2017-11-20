@@ -17,7 +17,7 @@ export class dragdropComponent extends baseComponent {
             drag drop image(s) 
         </div>
     </div>
-    <div class="container default-container dragdrop">
+    <div class="container default-container is-shadow dragdrop">
         <ul class="vertical-flow">
             <li>
                 <div class="dropzone">

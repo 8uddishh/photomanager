@@ -31,7 +31,7 @@ $app-danger-color: #b90a0a;
 $app-icon-setting: #4267b2;
 $app-icon-queue: #049a39;
 $app-icon-dragdrop: #296d54;
-$app-icon-notification: #514896;
+$app-icon-notification: #4d43a0;
 
 // dragdrop
 $app-file-drag-drop-bkground: rgba(77, 144, 100, 0.7);
@@ -92,6 +92,28 @@ body {
                 -ms-transform:skew(8deg) rotate(3deg);
                  -o-transform:skew(8deg) rotate(3deg);
                     transform:skew(8deg) rotate(3deg);
+        }
+    }
+
+    .tabs {
+        margin-bottom: 0px !important;
+        li {
+            a {
+                padding: 25px 10px 8px 10px;
+                font-size: 0.75em;
+                color: $app-text-grey;
+                border-color: transparent !important;
+            }
+
+            &:hover, &.is-active {
+                a {
+                    background-color: transparent !important;
+                    padding: 25px 10px 8px 10px;
+                    font-size: 0.75em;
+                    color: $app-white !important;
+                    border-color: transparent !important;
+                }
+            }
         }
     }
 
@@ -795,6 +817,36 @@ body {
         background-color: $app-white;
         padding: 10px;
         position:relative;
+
+        &.notif {
+            height: 400px;
+            background-color: rgba(255,255,255, 0.95);
+            padding: 0px;
+
+            .notification-item {
+                border: 0px;
+                border-left: 6px solid $app-success-color;
+                min-height: 50px;
+
+                .pull-left {
+                    .title {
+                        font-size: 0.875rem;
+                        padding: 0px 0px 2px 0px;
+                        color: $app-success-color;
+                    }
+                }
+
+                &.is-error {
+                    border: 0px;
+                    border-right: 6px solid $app-danger-color;
+                    .pull-left {
+                        .title {
+                            color: $app-danger-color;
+                        }
+                    }
+                }
+            }
+        }
 
         &.dragdrop {
             .dropzone {
