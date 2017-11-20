@@ -731,6 +731,10 @@ body {
 
         li {
             padding: 5px 10px;
+
+            &.dragzone {
+                padding: 0px;
+            }
         }
     }
 
@@ -820,13 +824,15 @@ body {
 
         &.notif {
             height: 400px;
-            background-color: rgba(255,255,255, 0.95);
+            background-color: rgba(255,255,255, 0.98);
             padding: 0px;
 
             .notification-item {
-                border: 0px;
-                border-left: 6px solid $app-success-color;
+                padding: 10px;
                 min-height: 50px;
+                -webkit-box-shadow: 0 1px 2px $app-success-color;
+                -moz-box-shadow: 0 2px 1px $app-success-color;
+                box-shadow: 0 2px 1px $app-success-color;
 
                 .pull-left {
                     .title {
@@ -837,8 +843,9 @@ body {
                 }
 
                 &.is-error {
-                    border: 0px;
-                    border-right: 6px solid $app-danger-color;
+                    -webkit-box-shadow: 0 1px 2px $app-danger-color;
+                    -moz-box-shadow: 0 2px 1px $app-danger-color;
+                    box-shadow: 0 2px 1px $app-danger-color;
                     .pull-left {
                         .title {
                             color: $app-danger-color;
@@ -850,7 +857,7 @@ body {
 
         &.dragdrop {
             .dropzone {
-                min-height: 300px;
+                min-height: 320px;
                 border: 1px $app-icon-dragdrop dashed;
                 background: $app-file-drag-drop-bkground;
                 position: relative;

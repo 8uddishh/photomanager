@@ -23,17 +23,43 @@ export class notificationsComponent extends baseComponent {
         <ul class="vertical-flow">
             <li class="notification-item">
                 <div class="pull-left">
-                <div class="title">
-                    Image1.jpg
+                    <div class="title">
+                        Image1.jpg
+                    </div>
                 </div>
-                </div>
+                <figure class="image is-48x48 pull-right">
+                    <img src="https://bulma.io/images/placeholders/128x128.png">
+                </figure>
             </li>
             <li class="notification-item is-error">
                 <div class="pull-left">
-                <div class="title">
-                Image2.jpg
+                    <div class="title">
+                        Image2.jpg
+                    </div>
                 </div>
+                <figure class="image is-48x48 pull-right">
+                    <img src="https://bulma.io/images/placeholders/128x128.png">
+                </figure>
+            </li>
+            <li class="notification-item">
+                <div class="pull-left">
+                    <div class="title">
+                        Image3.jpg
+                    </div>
                 </div>
+                <figure class="image is-48x48 pull-right">
+                    <img src="https://bulma.io/images/placeholders/128x128.png">
+                </figure>
+            </li>
+            <li class="notification-item">
+                <div class="pull-left">
+                    <div class="title">
+                        Image4.jpg
+                    </div>
+                </div>
+                <figure class="image is-48x48 pull-right">
+                    <img src="https://bulma.io/images/placeholders/128x128.png">
+                </figure>
             </li>
         </ul>
       </div>

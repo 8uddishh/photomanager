@@ -19,7 +19,7 @@ export class dragdropComponent extends baseComponent {
     </div>
     <div class="container default-container is-shadow dragdrop">
         <ul class="vertical-flow">
-            <li>
+            <li class="dragzone">
                 <div class="dropzone">
                     <div class="drag-drop-block">
                         <span class="fa fa-cloud fa-6x"></span>
