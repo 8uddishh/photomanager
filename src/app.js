@@ -33,12 +33,21 @@ const toggleWindow = (window, tray) => {
 const getWindowPosition = (window, tray) => {
     const windowBounds = window.getBounds()
     const trayBounds = tray.getBounds()
+    
+    if (IS_MAC) {
+        const xmac = Math.round(trayBounds.x - (windowBounds.width - 50))
+        const ymac = Math.round(trayBounds.y + windowBounds.height)
+
+        console.log(xmac, ymac)
+
+        return {x: xmac, y: ymac}
+    }
+
+    const xwin = Math.round(trayBounds.x - (windowBounds.width - 50))
   
-    const x = Math.round(trayBounds.x - (windowBounds.width - 50))
+    const ywin = Math.round(trayBounds.y - windowBounds.height)
   
-    const y = Math.round(trayBounds.y - windowBounds.height)
-  
-    return {x: x, y: y}
+    return {x: xwin, y: ywin}
   }
 
 const createTray = (window) => {
