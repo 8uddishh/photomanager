@@ -121,11 +121,11 @@ const processDirectory = mainWindow => directory => {
     })
 
     Webupload$.each(response => {
-        console.log(response.data)
+        //console.log(response.data)
     })
 
     fileReadStream$.each(file => {
-       console.log(file.shid)
+       //console.log(file.shid)
     })
 
     fileListStreamFromDirectory$.each(file => {

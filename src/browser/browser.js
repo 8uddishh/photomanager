@@ -3,6 +3,7 @@ import { settingsComponent } from "./components/settings/settings-component"
 import { queuesComponent } from "./components/queues/queues-component"
 import { notificationsComponent } from "./components/notifications/notifications-component"
 import { dragdropComponent } from "./components/home/dragdrop-component"
+import { navigationComponent } from "./components/ux/navigation-component"
 
 const $routeOutlet = document.querySelector("#photo-app")
 const routes = new Map([
@@ -17,8 +18,8 @@ let browserReady = () => {
     let cpnt = routes.get("home")()
     cpnt.settify()
 
-    // let navCpnt = new navigationComponent(document.querySelector(".vertical-menu"))
-    // navCpnt.settify()
+    let navCpnt = new navigationComponent(document.querySelector(".browser-qk-navs"), null)
+    navCpnt.settify()
 }
 
 document.addEventListener("DOMContentLoaded", browserReady)
