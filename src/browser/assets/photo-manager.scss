@@ -750,15 +750,19 @@ body {
         max-width: 3840px;
         padding: 10px;
 
-        li {
-            cursor: pointer;
-            font-size: 2.5rem;
-            padding: 0px 10px;
-            color: $app-black;
-            transition: all 0.5s ease-in;
+        &.browser-qk-navs  {
+            a {
+                padding: 25px 10px;
+                font-size: 2.5rem;
+                color: $app-black;
+                transition: all 0.5s ease-in;
+                border: 1px solid transparent;
+                height: 1em;
 
-            &:hover {
-                color: $app-dark-blue;
+                &:hover {
+                    color: $app-dark-blue;
+                    border: 1px solid transparent;
+                }
             }
         }
     }
