@@ -36,9 +36,7 @@ const getWindowPosition = (window, tray) => {
     
     if (IS_MAC) {
         const xmac = Math.round(trayBounds.x - (windowBounds.width - 50))
-        const ymac = Math.round(trayBounds.y + windowBounds.height)
-
-        console.log(xmac, ymac)
+        const ymac = Math.round(trayBounds.y - windowBounds.height)
 
         return {x: xmac, y: ymac}
     }
@@ -51,7 +49,7 @@ const getWindowPosition = (window, tray) => {
   }
 
 const createTray = (window) => {
-    let tray = new Tray(path.join(assetsDirectory, "images", "Geography-128.png"))
+    let tray = new Tray(path.join(assetsDirectory, "images", "lens.png"))
     tray.on("right-click", e => {
         toggleWindow(window, tray)
     })
@@ -147,7 +145,8 @@ electronReady(app)
             show: false,
             frame: false,
             fullscreenable: false,
-            resizable: false
+            resizable: false,
+            movable: true
         })
 
         photoMainWindow.loadURL(url.format({
@@ -169,52 +168,3 @@ electronReady(app)
                 .then(processDirectory(photoMainWindow))
         })
     })
-
-
-/*
-
-    const mainMenuTemplate = [
-            {
-                label: "File",
-                submenu: [
-                    {
-                        label: "Open Image(s)"
-                    },
-                    {
-                        label: "Open Folder"
-                    },
-                    {
-                        label: "Quit",
-                        accelerator: IS_MAC ? "Command+Q" : "Ctrl+Q",
-                        click() {
-                            app.quit()
-                        }
-                    }
-                ]
-            }
-        ]
-
-    if(!IS_PROD) {
-            mainMenuTemplate.push({
-               label: "Developer tools",
-               submenu: [
-                   {
-                       label: "Toggle DevTools",
-                       accelerator: IS_MAC ? "Command+I" : "Ctrl+I",
-                       click(item, focusedWindow) {
-                           focusedWindow.toggleDevTools()
-                       }
-                   },
-                   {   //reload
-                       role: 'reload'
-                   }
-               ] 
-            })
-        }
-
-
-
-    let mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
-    Menu.setApplicationMenu(mainMenu)
-
-*/
