@@ -1,4 +1,5 @@
 import { baseComponent } from "./../base-component"
+import { ipcRenderer } from "electron"
 
 export class homeComponent extends baseComponent {
 
@@ -8,6 +9,12 @@ export class homeComponent extends baseComponent {
         this.$link.classList.add("active")
         document.querySelector("body").removeAttribute("class")
         document.querySelector("body").classList.add("home")
+
+        this.fileProcessed = {
+            total: 0,
+            success: 0,
+            error: 0
+        }
     }
 
     get $template(){
@@ -63,24 +70,32 @@ export class homeComponent extends baseComponent {
             <div class="control">
               <div class="tags has-addons">
                 <span class="tag is-info">Total</span>
-                <span class="tag is-dark">0</span>
+                <span class="tag is-dark" id="spn-total">0</span>
               </div>
             </div>
           
             <div class="control">
               <div class="tags has-addons">
                 <span class="tag is-success">Success</span>
-                <span class="tag is-dark">0</span>
+                <span class="tag is-dark" id="spn-success">0</span>
               </div>
             </div>
           
             <div class="control">
               <div class="tags has-addons">
                 <span class="tag is-danger">Failed</span>
-                <span class="tag is-dark">0</span>
+                <span class="tag is-dark" id="spn-error">0</span>
               </div>
             </div>
           </div>
     </div>`
+    }
+
+    settifyTriggers () {
+
+        ipcRenderer.on("file:complete", e => {
+            console.log(this.fileProcessed.success++)
+            this.$el.querySelector("#spn-success").innerHTML = this.fileProcessed.success
+        })
     }
 }

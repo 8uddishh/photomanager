@@ -11,7 +11,7 @@ import FormData from "form-data"
 import axios from "axios"
 import shortid from "shortid"
 
-
+const queuedDirs = []
 const assetsDirectory = path.join(__dirname, "browser", "assets")
 
 const formData = (file) => {
@@ -121,7 +121,9 @@ const processDirectory = mainWindow => directory => {
     })
 
     Webupload$.each(response => {
-        //console.log(response.data)
+        mainWindow.webContents.send("file:complete", { status: "success" })
+    }).done(() => {
+        console.log("done")
     })
 
     fileReadStream$.each(file => {
@@ -161,10 +163,20 @@ electronReady(app)
             }
         })
 
-        createTray (photoMainWindow)
+        createTray (photoMainWindow) 
 
+        // handle folder dialog cancel
         ipcMain.on("nav:open-folder", e => {
+            console.log('Lets see')
             folderOpen(photoMainWindow, { properties: ["openDirectory"] })
-                .then(processDirectory(photoMainWindow))
+                .then(dir => {
+                    queuedDirs.push(dir)
+                    photoMainWindow.webContents.send("directory:firstselect", {})
+                })
+        })
+
+        ipcMain.on("process:folder", e => {
+            let next = queuedDirs.pop()
+            processDirectory(photoMainWindow)(next)
         })
     })
