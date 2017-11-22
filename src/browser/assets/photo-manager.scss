@@ -183,14 +183,24 @@ body {
                     padding: 10px;
 
                     &.in-progress-queues {
-                        .dropdown-item:first-of-type {
-                            .pull-left {
-                                width: 100%;
-                                .padding-before-progress {
-                                    margin-bottom: 24px !important;
-                                }
+                        .dropdown-item {
+                            .subtitle {
+                                display: none;
                             }
-                            
+
+                            &:first-of-type {
+                                .pull-left {
+                                    width: 100%;
+                                    .padding-before-progress {
+                                        margin-bottom: 24px !important;
+                                    }
+    
+                                    .subtitle {
+                                        display:block;
+                                    }
+                                }
+                                
+                            }
                         }
                     }
 

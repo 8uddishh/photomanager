@@ -42,7 +42,7 @@ export class queuesComponent extends baseComponent {
               <div class="title padding-before-progress">
                 Folder # 2
               </div>
-              <div class="subtitle" style="display:none">
+              <div class="subtitle">
                 <progress class="progress is-success" value="15" max="100">30%</progress>
               </div>
               </div>
@@ -53,7 +53,7 @@ export class queuesComponent extends baseComponent {
             <div class="title padding-before-progress">
               Folder # 3
             </div>
-            <div class="subtitle" style="display:none">
+            <div class="subtitle">
               <progress class="progress is-success" value="15" max="100">30%</progress>
             </div>
             </div>
