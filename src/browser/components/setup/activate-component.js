@@ -63,7 +63,6 @@ export class activationComponent extends baseComponent {
     }
     constructor($el, $link) {
         super($el, $link)
-        console.log(this.$template)
         this.$el.innerHTML = this.$template
         document.querySelector("body").removeAttribute("class")
         document.querySelector("body").classList.add("activate")
