@@ -95,7 +95,7 @@ export class homeComponent extends baseComponent {
 
         ipcRenderer.on("file:complete", e => {
             console.log(this.fileProcessed.success++)
-            this.$el.querySelector("#spn-success").innerHTML = this.fileProcessed.success
+            this.$("#spn-success").innerHTML = this.fileProcessed.success
         })
     }
 }

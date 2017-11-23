@@ -9,13 +9,13 @@ export class accordionComponent extends baseComponent {
 
     accordionSelect ($btn) {
        return e => {
-           this.$el.querySelector(".is-active").classList.remove("is-active")
+           this.$(".is-active").classList.remove("is-active")
            $btn.closest(".dropdown").classList.add("is-active")
        }
     }
 
     settifyTriggers () {
-        this.$el.querySelectorAll(".dropdown-trigger button")
+        this.$All(".dropdown-trigger button")
             .forEach($btn => {
                 $btn.addEventListener("click", this.accordionSelect($btn))
             })

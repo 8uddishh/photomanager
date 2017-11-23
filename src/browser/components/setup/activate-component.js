@@ -1,4 +1,5 @@
 import { baseComponent } from "./../base-component"
+import { ipcRenderer } from "electron"
 
 export class activationComponent extends baseComponent {
 
@@ -50,7 +51,7 @@ export class activationComponent extends baseComponent {
                             </p>
                             <div class="field">
                                 <div class="control">
-                                <input class="input is-info" type="password" placeholder="Paste BOT Auth code here">
+                                <input id="act-auth-code" class="input is-info" type="password" placeholder="Paste BOT Auth code here">
                                 </div>
                             </div>
                         </li>
@@ -99,13 +100,13 @@ export class activationComponent extends baseComponent {
 
         document.querySelector("#next-step").addEventListener("click", e => {
             if(!e.target.hasAttribute("disabled")) {
-                this.$el.querySelector(this.slides[this.currentSlide]).classList.remove("is-active")
-                this.$el.querySelector(this.slides[this.currentSlide]).classList.add("is-slide", "is-left")
+                this.$(this.slides[this.currentSlide]).classList.remove("is-active")
+                this.$(this.slides[this.currentSlide]).classList.add("is-slide", "is-left")
     
                 this.currentSlide++
                 
-                this.$el.querySelector(this.slides[this.currentSlide]).classList.remove("is-slide", "is-left", "is-right")
-                this.$el.querySelector(this.slides[this.currentSlide]).classList.add("is-active")
+                this.$(this.slides[this.currentSlide]).classList.remove("is-slide", "is-left", "is-right")
+                this.$(this.slides[this.currentSlide]).classList.add("is-active")
     
                 if(this.currentSlide == this.slides.length - 1)
                     document.querySelector("#next-step").classList.add("hidden")
@@ -123,13 +124,13 @@ export class activationComponent extends baseComponent {
         })
 
         document.querySelector("#prev-step").addEventListener("click", e => {
-            this.$el.querySelector(this.slides[this.currentSlide]).classList.remove("is-active")
-            this.$el.querySelector(this.slides[this.currentSlide]).classList.add("is-slide", "is-right")
+            this.$(this.slides[this.currentSlide]).classList.remove("is-active")
+            this.$(this.slides[this.currentSlide]).classList.add("is-slide", "is-right")
 
             this.currentSlide--
             
-            this.$el.querySelector(this.slides[this.currentSlide]).classList.remove("is-slide", "is-left", "is-right")
-            this.$el.querySelector(this.slides[this.currentSlide]).classList.add("is-active")
+            this.$(this.slides[this.currentSlide]).classList.remove("is-slide", "is-left", "is-right")
+            this.$(this.slides[this.currentSlide]).classList.add("is-active")
 
             if(this.currentSlide == 0)
                 document.querySelector("#prev-step").classList.add("hidden")
@@ -138,24 +139,38 @@ export class activationComponent extends baseComponent {
             document.querySelector("#next-step").removeAttribute("disabled")
         })
 
-        this.$el.querySelector("#select-auth-code").addEventListener("click", e => {
+        this.$("#select-auth-code").addEventListener("click", e => {
             this.applicationKeySelected = true
-            this.$el.querySelector("#select-auth-code").classList.add("is-active")
+            this.$("#select-auth-code").classList.add("is-active")
             document.querySelector("#next-step").removeAttribute("disabled")
         })
 
-        this.$el.querySelector("#act-app").addEventListener("click", e => {
+        this.$("#act-app").addEventListener("click", e => {
             if(!e.target.hasAttribute("disabled")) {
-                this.$el.querySelector(this.slides[this.currentSlide]).classList.remove("is-active")
-                this.$el.querySelector(this.slides[this.currentSlide]).classList.add("is-slide", "is-left")
+                this.$(this.slides[this.currentSlide]).classList.remove("is-active")
+                this.$(this.slides[this.currentSlide]).classList.add("is-slide", "is-left")
     
                 this.currentSlide++
                 
-                this.$el.querySelector(this.slides[this.currentSlide]).classList.remove("is-slide", "is-left", "is-right")
-                this.$el.querySelector(this.slides[this.currentSlide]).classList.add("is-active")
+                this.$(this.slides[this.currentSlide]).classList.remove("is-slide", "is-left", "is-right")
+                this.$(this.slides[this.currentSlide]).classList.add("is-active")
 
                 document.querySelector("#footer-setup-container").classList.add("hidden")
+                ipcRenderer.send("auth:activate", this.$("#act-auth-code").value)
             }
+        })
+
+        ipcRenderer.on("auth:success", (e, user) => {
+            setTimeout(() => {
+                this.$("#act-auth-error").classList.remove("is-active")
+            }, 200)
+        })
+
+        ipcRenderer.on("auth:failed", (e, err) => {
+            document.querySelector("#prev-step").click()
+            setTimeout(() => {
+                this.$("#act-auth-error").classList.add("is-active")
+            }, 200)
         })
     }
 }

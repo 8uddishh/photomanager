@@ -17,7 +17,7 @@ const routes = new Map([
 ])
 
 let browserReady = () => {
-    if(1 == 1) {
+    if(1 == 0) {
         document.querySelector("#qk-nav-container").classList.add("hidden")
         document.querySelector("#footer-container").classList.add("hidden")
         let activateCpnt = new activationComponent($routeOutlet, null)

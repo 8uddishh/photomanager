@@ -33,3 +33,5 @@ export const folderOpen = (window, options) => new Promise((resolve, reject) => 
     })
 })
 
+export const authorize = (data) => axios.post("http://127.0.0.1:3000/photos/auth", data)
+

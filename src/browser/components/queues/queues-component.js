@@ -142,7 +142,7 @@ export class queuesComponent extends baseComponent {
     }
 
     settifyWidgets () {
-        this.accordion = new accordionComponent(this.$el.querySelector("#settings-accordion"))
+        this.accordion = new accordionComponent(this.$("#settings-accordion"))
         this.accordion.settify()
       }
 }

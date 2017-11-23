@@ -2,7 +2,7 @@ import { app,  BrowserWindow, Menu, ipcMain, dialog, Tray } from "electron"
 import url from "url"
 import path from "path"
 import { 
-            IS_MAC, IS_PROD, electronReady, folderOpen,
+            IS_MAC, IS_PROD, electronReady, folderOpen, authorize,
             directoryRead, directoryFiles$, isImagefile, fileRead$, fileUpload$
         } from "./common/process-core"
 import fs from "fs"
@@ -140,8 +140,6 @@ electronReady(app)
     .then(msg => {
         
         let photoMainWindow = new BrowserWindow({
-            // width: 450,
-            // height: 650,
             width: 375,
             height: 633,
             show: false,
@@ -178,5 +176,16 @@ electronReady(app)
         ipcMain.on("process:folder", e => {
             let next = queuedDirs.pop()
             processDirectory(photoMainWindow)(next)
+        })
+
+        //authorize
+        ipcMain.on("auth:activate", (e, code) => {
+            authorize({ appKey: code })
+                .then(response => {
+                    if(response.data.status == "success")
+                        photoMainWindow.webContents.send("auth:success", response.data)
+                    else 
+                        photoMainWindow.webContents.send("auth:failed", response.data)
+                })
         })
     })
