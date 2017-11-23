@@ -46,15 +46,16 @@ export class activationComponent extends baseComponent {
                         <li><p>Copy the displayed auth code in BOT by clicking <i class="fa fa-copy"></i> button</p></li>
                         <li>
                             <p>
-                                Paste the auth code in the textbox below and click 'Authenticate'
+                                Paste the auth code in the textbox below and click 'Activate'
                             </p>
                             <div class="field">
                                 <div class="control">
-                                <input class="input is-info" type="password" placeholder="Info input">
+                                <input class="input is-info" type="password" placeholder="Paste BOT Auth code here">
                                 </div>
                             </div>
                         </li>
                     </ul>
+                    <a class="button is-link is-block"><i class="fa fa-key fa-flip-vertical"></i> Activate</a>
                 </div>
             </div>
         </div>
@@ -109,6 +110,7 @@ export class activationComponent extends baseComponent {
                 document.querySelector("#prev-step").classList.add("hidden")
 
             document.querySelector("#next-step").classList.remove("hidden")
+            document.querySelector("#next-step").removeAttribute("disabled")
         })
 
         this.$el.querySelector("#select-auth-code").addEventListener("click", e => {

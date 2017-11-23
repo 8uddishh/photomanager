@@ -371,7 +371,7 @@ body {
                     padding-top: 15px;
                 }
 
-                a {
+                a:not(.is-block) {
                     display: inline-block;
                     border: 1px $app-success-color solid;
                     border-radius: 50%;
@@ -1146,6 +1146,11 @@ body {
         .icon-right {
             margin-left: 5px !important;
         }
+    }
+
+    .is-block {
+        width: 100%;
+        text-align: center;
     }
 
     .photo-list {
