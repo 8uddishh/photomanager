@@ -1,3 +1,5 @@
+
+import { activationComponent } from "./components/setup/activate-component"
 import { homeComponent } from "./components/home/home-component"
 import { settingsComponent } from "./components/settings/settings-component"
 import { queuesComponent } from "./components/queues/queues-component"
@@ -15,11 +17,19 @@ const routes = new Map([
 ])
 
 let browserReady = () => {
-    let cpnt = routes.get("home")()
-    cpnt.settify()
-
-    let navCpnt = new navigationComponent(document.querySelector(".browser-qk-navs"), null)
-    navCpnt.settify()
+    if(1 == 1) {
+        document.querySelector("#qk-nav-container").classList.add("hidden")
+        document.querySelector("#footer-container").classList.add("hidden")
+        let activateCpnt = new activationComponent($routeOutlet, null)
+        activateCpnt.settify()
+    }
+    else {
+        let cpnt = routes.get("home")()
+        cpnt.settify()
+    
+        let navCpnt = new navigationComponent(document.querySelector(".browser-qk-navs"), null)
+        navCpnt.settify()
+    }  
 }
 
 document.addEventListener("DOMContentLoaded", browserReady)

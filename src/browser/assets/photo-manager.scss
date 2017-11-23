@@ -32,6 +32,7 @@ $app-icon-setting: #4267b2;
 $app-icon-queue: #049a39;
 $app-icon-dragdrop: #296d54;
 $app-icon-notification: #026f6f;
+$app-icon-activate: #04794e;
 
 // dragdrop
 $app-file-drag-drop-bkground: rgba(77, 144, 100, 0.7);
@@ -57,6 +58,10 @@ body {
     select,
     textarea {
         font-family: 'Lato', sans-serif !important;
+    }
+
+    .hidden {
+        display: none !important;
     }
 
     .fa-6x {
@@ -330,6 +335,54 @@ body {
 
     &.dragdrop {
         background-color: $app-icon-dragdrop;
+    }
+
+    &.activate {
+        background-color: $app-icon-activate;
+        .interchange {
+
+            min-height: 525px;
+
+            .interchange-item {
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.75s ease-in-out;
+
+                &.is-active {
+                    position: relative;
+                    left: 0px;
+                    opacity: 1;              
+                }
+
+                &.is-slide {
+                    opacity: 0;
+                    position: absolute;
+
+                    &.is-right {
+                        left:405px;
+                    }
+
+                    &.is-left {
+                        left:-400px;
+                    }
+                }
+            }
+
+            .title {
+                font-size: 2.5em;
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .subtitle {
+                font-size: 1em;
+                margin-top: 0px;
+                text-align: center;
+            }
+        }
     }
     
 
@@ -748,6 +801,13 @@ body {
                 padding: 0px;
             }
         }
+
+        &.setup {
+            li {
+                padding: 10px 0px;
+                border-bottom: solid 1px $app-icon-queue;
+            }
+        }
     }
 
     ul.horizondal-flow {
@@ -795,6 +855,11 @@ body {
         &.is-bottom {
             bottom: 0;
             min-height: 65px;
+        }
+
+        &.is-bottom-setup {
+            bottom: 0;
+            min-height: 55px;
         }
 
         .navbar-brand {
@@ -934,6 +999,23 @@ body {
 
             .is-dark {
                 background-color: $app-black;
+            }
+
+            .prev-button {
+                padding: 0px 9px;
+                font-size: 0.75rem;
+                font-weight: normal;
+                border-color: $app-next-color;
+                color: $app-next-color;
+
+                .icon-left {
+                    padding-right: 5px;
+                }
+
+                &:hover {
+                    background-color: $app-next-color;
+                    color: $app-black;
+                }
             }
 
             .next-button {
