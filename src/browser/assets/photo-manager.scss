@@ -12,6 +12,8 @@ $progress-bar-background-color: rgb(221, 220, 220);
     100% { color: #0c6f5d; top: -40px; }
 }
 
+@keyframes pulse {to {box-shadow: 0 0 0 25px rgba(5,82,32, 0);}}
+
 $app-legend: #ccc;
 $app-white: #fff;
 $app-black: #252525;
@@ -365,6 +367,10 @@ body {
                     }
                 }
 
+                .field {
+                    padding-top: 15px;
+                }
+
                 a {
                     display: inline-block;
                     border: 1px $app-success-color solid;
@@ -375,10 +381,13 @@ body {
                     transition: all 0.5s ease-in;
                     background-color: transparent;
                     color: $app-success-color;
+                    box-shadow: 0 0 0 0 rgba(5,82,32, 0.85);
+                    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
         
-                    &:hover {
+                    &:hover, &.is-active {
                         color: $app-white;
                         background-color: $app-success-color;
+                        animation: none;
                     }
                 }
 
@@ -1036,23 +1045,6 @@ body {
                 background-color: $app-black;
             }
 
-            .prev-button {
-                padding: 0px 9px;
-                font-size: 0.75rem;
-                font-weight: normal;
-                border-color: $app-next-color;
-                color: $app-next-color;
-
-                .icon-left {
-                    padding-right: 5px;
-                }
-
-                &:hover {
-                    background-color: $app-next-color;
-                    color: $app-black;
-                }
-            }
-
             .next-button {
                 padding: 0px 9px;
                 font-size: 0.75rem;
@@ -1061,7 +1053,7 @@ body {
                 color: $app-next-color;
 
                 .icon-right {
-                    padding-left: 5px;
+                    margin-left: 5px;
                 }
 
                 &:hover {
@@ -1141,6 +1133,18 @@ body {
             .fa {
                 font-size: 1.5rem;
             }
+        }
+    }
+
+    .prev-button {
+        .icon-left {
+            margin-right: 5px !important;
+        }
+    }
+
+    .next-button {
+        .icon-right {
+            margin-left: 5px !important;
         }
     }
 
