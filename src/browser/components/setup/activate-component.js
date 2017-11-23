@@ -55,7 +55,30 @@ export class activationComponent extends baseComponent {
                             </div>
                         </li>
                     </ul>
-                    <a class="button is-link is-block"><i class="fa fa-key fa-flip-vertical"></i> Activate</a>
+                    <a class="button is-link is-block is-gradient" id="act-app"><i class="fa fa-key fa-flip-vertical"></i> Activate</a>
+                    <div id="act-auth-error" class="notification is-danger is-size-7 has-text-centered  margin top-20">
+                        The auth code entered is invalid. Please try again.
+                    </div>
+                </div>
+                <div id="act-step-4" class="is-thinky interchange-item is-slide is-right">
+                    <svg>
+                        <defs>
+                        <filter>
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
+                            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo"></feColorMatrix>
+                            <feBlend in="SourceGraphic" in2="goo"></feBlend>
+                        </filter>
+                        </defs>
+                    </svg>
+                    <div class="bubble bubble-0"></div>
+                    <div class="bubble bubble-1"></div>
+                    <div class="bubble bubble-2"></div>
+                    <div class="bubble bubble-3"></div>
+                    <div class="bubble bubble-4"></div>
+                    <div class="bubble bubble-5"></div>
+                    <div class="is-uppercase has-text-centered is-size-7">
+                        Please wait while we activate your app... This can take a few minutes...
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,7 +90,7 @@ export class activationComponent extends baseComponent {
         document.querySelector("body").removeAttribute("class")
         document.querySelector("body").classList.add("activate")
         this.currentSlide = 0
-        this.slides = [ "#act-hello", "#act-step-1", "#act-step-2", "#act-step-3" ]
+        this.slides = [ "#act-hello", "#act-step-1", "#act-step-2", "#act-step-3", "#act-step-4" ]
         this.applicationKeySelected = false
     }
 
@@ -93,6 +116,9 @@ export class activationComponent extends baseComponent {
                     document.querySelector("#next-step").setAttribute("disabled", "")
                 else 
                     document.querySelector("#next-step").removeAttribute("disabled")
+
+                if(this.currentSlide >= 3)
+                    document.querySelector("#next-step").classList.add("hidden")
             }
         })
 
@@ -116,6 +142,20 @@ export class activationComponent extends baseComponent {
             this.applicationKeySelected = true
             this.$el.querySelector("#select-auth-code").classList.add("is-active")
             document.querySelector("#next-step").removeAttribute("disabled")
+        })
+
+        this.$el.querySelector("#act-app").addEventListener("click", e => {
+            if(!e.target.hasAttribute("disabled")) {
+                this.$el.querySelector(this.slides[this.currentSlide]).classList.remove("is-active")
+                this.$el.querySelector(this.slides[this.currentSlide]).classList.add("is-slide", "is-left")
+    
+                this.currentSlide++
+                
+                this.$el.querySelector(this.slides[this.currentSlide]).classList.remove("is-slide", "is-left", "is-right")
+                this.$el.querySelector(this.slides[this.currentSlide]).classList.add("is-active")
+
+                document.querySelector("#footer-setup-container").classList.add("hidden")
+            }
         })
     }
 }
