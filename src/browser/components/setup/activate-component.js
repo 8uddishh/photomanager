@@ -20,7 +20,7 @@ export class activationComponent extends baseComponent {
                 <div id="act-step-1" class="interchange-item is-slide is-right">
                     <h1 class="title">Step 1</h1>
                     <ul class="vertical-flow setup">
-                        <li>Log in to 'Back Office Tools' and click on the <i class="fa fa-gears"></i> button</li>
+                        <li><p>Log in to 'Back Office Tools' and click on the <i class="fa fa-gears"></i> button</p></li>
                         <li>In the widgets configuration displayed, click on 'Remotes' tab</li>
                         <li>'Gojira' should be one of the option</li>
                         <li>Click on 'Request Auth Code' on the option</li>
@@ -29,8 +29,13 @@ export class activationComponent extends baseComponent {
                 <div id="act-step-2" class="interchange-item is-slide is-right">
                     <h1 class="title">Step 2</h1>
                     <ul class="vertical-flow setup">
-                        <li>Copy application id below by clicking the <i class="fa fa-copy"></i></li>
-                        <li><span>0099-8877-8876-0034</span></li>
+                        <li><p>Copy application id below by clicking the <i class="fa fa-copy"></i> button</p></li>
+                        <li class="auth-code">
+                            <div class="pull-left">
+                                <span class="bar-code">710b962e-041c-11e1-9234-0123456789ab</span>
+                            </div>
+                            <a class="button pull-right" ><i class="fa fa-copy"></i></a>
+                        </li>
                         <li>Paste the copied code into the BOT textbox and click generate</li>
                         <li>You would be displayed with an auth code</li>
                     </ul>

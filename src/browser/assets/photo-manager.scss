@@ -351,6 +351,37 @@ body {
                 justify-content: center;
                 transition: all 0.75s ease-in-out;
 
+                .auth-code {
+                    display: flex; 
+                    flex-direction: row; 
+                    align-items: center;
+
+                    .pull-left {
+                        max-width: 85%;
+                        .bar-code {
+                            font-family: 'Libre Barcode 39 Extended Text', cursive;
+                            font-size: 30px;
+                        }
+                    }
+                }
+
+                a {
+                    display: inline-block;
+                    border: 1px $app-success-color solid;
+                    border-radius: 50%;
+                    padding: 10px;
+                    min-width: 45px;
+                    min-height: 45px;
+                    transition: all 0.5s ease-in;
+                    background-color: transparent;
+                    color: $app-success-color;
+        
+                    &:hover {
+                        color: $app-white;
+                        background-color: $app-success-color;
+                    }
+                }
+
                 &.is-active {
                     position: relative;
                     left: 0px;
@@ -804,8 +835,12 @@ body {
 
         &.setup {
             li {
-                padding: 10px 0px;
+                padding: 10px 0px 15px 0px;
                 border-bottom: solid 1px $app-icon-queue;
+
+                &:last-of-type {
+                    border-bottom: solid 1px transparent;
+                }
             }
         }
     }
