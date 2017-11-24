@@ -35,7 +35,7 @@ export class activationComponent extends baseComponent {
                             <div class="pull-left">
                                 <span class="bar-code">710b962e-041c-11e1-9234-0123456789ab</span>
                             </div>
-                            <a class="button pull-right" id="select-auth-code" ><i class="fa fa-copy"></i></a>
+                            <a class="button is-pulse pull-right" id="select-auth-code" ><i class="fa fa-copy"></i></a>
                         </li>
                         <li>Paste the copied code into the BOT textbox and click generate</li>
                         <li>You would be displayed with an auth code</li>
@@ -81,6 +81,59 @@ export class activationComponent extends baseComponent {
                         Please wait while we activate your app... This can take a few minutes...
                     </div>
                 </div>
+                <div id="act-welcome" class="interchange-item is-slide is-right">
+                    <h1 class="title">Welcome</h1>
+                    <h3 class="subtitle user-name is-uppercase" id="act-logged-user">
+                    </h3>
+                    <h3 class="subtitle is-size-7 has-text-centered">
+                        Your app has been activated successfully. Secure your application with a 4 digit code. 
+                        This code can be used to lock and unlock your app when not in use.
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div id="act-pass-code" class="act-pass-code" style="display:none">
+            <div class="columns is-mobile">
+                <div class="column is-one-third">
+                    <a class="button is-white">1</a>
+                </div>
+                <div class="column is-one-third">
+                    <a class="button is-white">2</a>
+                </div>
+                <div class="column is-one-third">
+                    <a class="button is-white">3</a>
+                </div>
+            </div>
+            <div class="columns is-mobile">
+                <div class="column is-one-third">
+                    <a class="button is-white">4</a>
+                </div>
+                <div class="column is-one-third">
+                    <a class="button is-white">5</a>
+                </div>
+                <div class="column is-one-third">
+                    <a class="button is-white">6</a>
+                </div>
+            </div>
+            <div class="columns is-mobile">
+                <div class="column is-one-third">
+                    <a class="button is-white">7</a>
+                </div>
+                <div class="column is-one-third">
+                    <a class="button is-white">8</a>
+                </div>
+                <div class="column is-one-third">
+                    <a class="button is-white">9</a>
+                </div>
+            </div>
+            <div class="columns is-mobile">
+                <div class="column is-one-third">
+                </div>
+                <div class="column is-one-third">
+                    <a class="button is-white">0</a>
+                </div>
+                <div class="column is-one-third">
+                </div>
             </div>
         </div>
         `
@@ -91,7 +144,7 @@ export class activationComponent extends baseComponent {
         document.querySelector("body").removeAttribute("class")
         document.querySelector("body").classList.add("activate")
         this.currentSlide = 0
-        this.slides = [ "#act-hello", "#act-step-1", "#act-step-2", "#act-step-3", "#act-step-4" ]
+        this.slides = [ "#act-hello", "#act-step-1", "#act-step-2", "#act-step-3", "#act-step-4", "#act-welcome" ]
         this.applicationKeySelected = false
     }
 
@@ -161,8 +214,12 @@ export class activationComponent extends baseComponent {
         })
 
         ipcRenderer.on("auth:success", (e, user) => {
+            this.applicationKeySelected = true
+            this.$("#act-logged-user").innerHTML = user.userFullname
+            document.querySelector("#next-step").click()
             setTimeout(() => {
                 this.$("#act-auth-error").classList.remove("is-active")
+                document.querySelector("#act-pass-code").removeAttribute("style")
             }, 200)
         })
 

@@ -407,7 +407,7 @@ body {
                     padding-top: 15px;
                 }
 
-                a:not(.is-block) {
+                .is-pulse {
                     display: inline-block;
                     border: 1px $app-success-color solid;
                     border-radius: 50%;
@@ -1262,6 +1262,27 @@ body {
 
             &.is-active {
                 opacity: 1;
+            }
+        }
+    }
+
+    .user-name {
+        color: $app-dark-blue;
+    }
+
+    .act-pass-code {
+        width: 100%;
+        background-color: #d8dbe0;
+        padding: 10px;
+        position:fixed; 
+        bottom: 0;
+        z-index: 10;
+
+        .column {
+            padding: 5px;
+            .button {
+                width: 100%;
+                box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
             }
         }
     }
