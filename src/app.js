@@ -2,17 +2,21 @@ import { app,  BrowserWindow, Menu, ipcMain, dialog, Tray } from "electron"
 import url from "url"
 import path from "path"
 import { 
-            IS_MAC, IS_PROD, electronReady, folderOpen, authorize,
+            IS_MAC, IS_PROD, electronReady, folderOpen, authorize, setTimeOut,
             directoryRead, directoryFiles$, isImagefile, fileRead$, fileUpload$
-        } from "./common/process-core"
+        } from "./core/process-core"
 import fs from "fs"
 import H from "highland"
 import FormData from "form-data"
 import axios from "axios"
 import shortid from "shortid"
+import { imageDbContext } from "./core/db-core"
 
 const queuedDirs = []
 const assetsDirectory = path.join(__dirname, "browser", "assets")
+const dbContext = new imageDbContext("photo-electron.json")
+
+let loggedInUser
 
 const formData = (file) => {
     var data = new FormData()
@@ -136,9 +140,8 @@ const processDirectory = mainWindow => directory => {
     })
 }
 
-electronReady(app)
-    .then(msg => {
-        
+    electronReady(app).then(msg => {
+
         let photoMainWindow = new BrowserWindow({
             width: 375,
             height: 633,
@@ -165,7 +168,6 @@ electronReady(app)
 
         // handle folder dialog cancel
         ipcMain.on("nav:open-folder", e => {
-            console.log('Lets see')
             folderOpen(photoMainWindow, { properties: ["openDirectory"] })
                 .then(dir => {
                     queuedDirs.push(dir)
@@ -188,4 +190,14 @@ electronReady(app)
                         photoMainWindow.webContents.send("auth:failed", response.data)
                 })
         })
+
+        dbContext.init()
+            .then(response => {
+                loggedInUser = dbContext.profiles.retrieve()[0]
+                dbContext.saveDatabase()
+                return setTimeOut(200)
+            }).then(() => {
+                photoMainWindow.webContents.send("start:userExist", loggedInUser) 
+            })
+            
     })

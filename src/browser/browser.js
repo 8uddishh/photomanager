@@ -6,7 +6,9 @@ import { queuesComponent } from "./components/queues/queues-component"
 import { notificationsComponent } from "./components/notifications/notifications-component"
 import { dragdropComponent } from "./components/home/dragdrop-component"
 import { navigationComponent } from "./components/ux/navigation-component"
+import { ipcRenderer } from "electron"
 
+let docReady = false
 const $routeOutlet = document.querySelector("#photo-app")
 const routes = new Map([
     ["home", () => new homeComponent($routeOutlet, document.querySelector("#btn-home"))],
@@ -16,8 +18,8 @@ const routes = new Map([
     ["dragdrop", () => new dragdropComponent($routeOutlet, document.querySelector("#btn-dragdrop"))]
 ])
 
-let browserReady = () => {
-    if(1 == 1) {
+const init = (user) => {
+    if(!user) {
         document.querySelector("#qk-nav-container").classList.add("hidden")
         document.querySelector("#footer-container").classList.add("hidden")
         let activateCpnt = new activationComponent($routeOutlet, null)
@@ -26,10 +28,15 @@ let browserReady = () => {
     else {
         let cpnt = routes.get("home")()
         cpnt.settify()
-    
         let navCpnt = new navigationComponent(document.querySelector(".browser-qk-navs"), null)
         navCpnt.settify()
-    }  
+    }
+}
+
+let browserReady = () => {
+    ipcRenderer.on("start:userExist", (e,user) => {
+        init(user)
+    })
 }
 
 document.addEventListener("DOMContentLoaded", browserReady)
