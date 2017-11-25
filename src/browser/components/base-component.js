@@ -9,8 +9,6 @@ export class baseComponent {
         if(this.$template) {
             var container$ = document.createElement('div')
             container$.innerHTML = this.$template
-            container$.querySelector(".route-filler")
-            console.log(container$.querySelector(".route-filler"))
             this.$el.appendChild(container$.querySelector(".route-filler"))
             if(this.$link)
                 this.$link.classList.add("active")

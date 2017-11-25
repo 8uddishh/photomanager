@@ -11,7 +11,7 @@ export class queuesComponent extends baseComponent {
     get $template(){
         return `
         <div class="route-filler is-route-slide is-right">
-        <div id="settings-accordion" class="accordion">
+        <div id="queues-accordion" class="accordion">
         <div class="dropdown is-active">
           <div class="dropdown-trigger">
             <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
@@ -140,7 +140,7 @@ export class queuesComponent extends baseComponent {
     }
 
     settifyWidgets () {
-        this.accordion = new accordionComponent(this.$("#settings-accordion"))
+        this.accordion = new accordionComponent(this.$("#queues-accordion"))
         this.accordion.settify()
       }
 }
