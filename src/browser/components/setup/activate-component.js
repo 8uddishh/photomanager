@@ -89,50 +89,69 @@ export class activationComponent extends baseComponent {
                         Your app has been activated successfully. Secure your application with a 4 digit code. 
                         This code can be used to lock and unlock your app when not in use.
                     </h3>
+                    <div class="columns is-mobile is-pass-code">
+                        <div class="column">
+                            <span class="auth-1"></span>
+                        </div>
+                        <div class="column">
+                            <span class="auth-2"></span>
+                        </div>
+                        <div class="column">
+                            <span class="auth-3"></span>
+                        </div>
+                        <div class="column">
+                            <span class="auth-4"></span>
+                        </div>
+                    </div>
+                    <a id="act-apply-passcode" class="button is-link is-block is-gradient is-hide" id="act-app"><i class="fa fa-check-circle"></i> Apply</a>
+                    <a id="act-cancel-passcode" class="button is-error is-block is-gradient is-hide" id="act-app"><i class="fa fa-times-circle"></i> Cancel</a>
                 </div>
             </div>
         </div>
         <div id="act-pass-code" class="act-pass-code" style="display:none">
             <div class="columns is-mobile">
                 <div class="column is-one-third">
-                    <a class="button is-white">1</a>
+                    <a class="button is-white auth-select">1</a>
                 </div>
                 <div class="column is-one-third">
-                    <a class="button is-white">2</a>
+                    <a class="button is-white auth-select">2</a>
                 </div>
                 <div class="column is-one-third">
-                    <a class="button is-white">3</a>
-                </div>
-            </div>
-            <div class="columns is-mobile">
-                <div class="column is-one-third">
-                    <a class="button is-white">4</a>
-                </div>
-                <div class="column is-one-third">
-                    <a class="button is-white">5</a>
-                </div>
-                <div class="column is-one-third">
-                    <a class="button is-white">6</a>
+                    <a class="button is-white auth-select">3</a>
                 </div>
             </div>
             <div class="columns is-mobile">
                 <div class="column is-one-third">
-                    <a class="button is-white">7</a>
+                    <a class="button is-white auth-select">4</a>
                 </div>
                 <div class="column is-one-third">
-                    <a class="button is-white">8</a>
+                    <a class="button is-white auth-select">5</a>
                 </div>
                 <div class="column is-one-third">
-                    <a class="button is-white">9</a>
+                    <a class="button is-white auth-select">6</a>
+                </div>
+            </div>
+            <div class="columns is-mobile">
+                <div class="column is-one-third">
+                    <a class="button is-white auth-select">7</a>
+                </div>
+                <div class="column is-one-third">
+                    <a class="button is-white auth-select">8</a>
+                </div>
+                <div class="column is-one-third">
+                    <a class="button is-white auth-select">9</a>
                 </div>
             </div>
             <div class="columns is-mobile">
                 <div class="column is-one-third">
                 </div>
                 <div class="column is-one-third">
-                    <a class="button is-white">0</a>
+                    <a class="button is-white auth-select">0</a>
                 </div>
                 <div class="column is-one-third">
+                    <a class="button is-white auth-select auth-bk-space">
+                        <i class="fa fa-shield fa-rotate-90"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -146,6 +165,7 @@ export class activationComponent extends baseComponent {
         this.currentSlide = 0
         this.slides = [ "#act-hello", "#act-step-1", "#act-step-2", "#act-step-3", "#act-step-4", "#act-welcome" ]
         this.applicationKeySelected = false
+        this.authCode = ""
     }
 
     settifyTriggers () {
@@ -211,6 +231,55 @@ export class activationComponent extends baseComponent {
                 document.querySelector("#footer-setup-container").classList.add("hidden")
                 ipcRenderer.send("auth:activate", this.$("#act-auth-code").value)
             }
+        })
+
+        this.$All(".auth-select:not(.auth-bk-space)")
+            .forEach($btn => {
+                $btn.addEventListener("click", e => {
+                    if(this.authCode.length < 4) {
+                        this.authCode = `${this.authCode}${$btn.innerHTML.trim()}`
+                        this.$(`.auth-${this.authCode.length}`).classList.add("is-active")
+                    }
+
+                    if(this.authCode.length == 4) {
+                        this.$("#act-apply-passcode").classList.remove("is-hide")
+                        this.$("#act-cancel-passcode").classList.remove("is-hide")
+                    }
+                })
+            })
+        
+        this.$(".auth-bk-space").addEventListener("click", e => {
+            if(this.authCode.length > 0) {
+                this.$(`.auth-${this.authCode.length}`).classList.remove("is-active")
+                this.authCode = this.authCode.slice(0, this.authCode.length  - 1)
+
+                this.$("#act-apply-passcode").classList.add("is-hide")
+                this.$("#act-cancel-passcode").classList.add("is-hide")
+            }
+        })
+
+        this.$("#act-apply-passcode").addEventListener("click", e => {
+            this.$("#act-apply-passcode").classList.add("is-hide")
+            this.$("#act-cancel-passcode").classList.add("is-hide")
+
+            this.$("#act-pass-code").setAttribute("style", "display: none")
+
+            setTimeout(() => {
+                document.querySelector("#qk-nav-container").classList.remove("hidden")
+                document.querySelector("#footer-container").classList.remove("hidden")
+                window.location.hash = '#home';
+            }, 200)
+        })
+
+        this.$("#act-cancel-passcode").addEventListener("click", e => {
+            this.$(".auth-1").classList.remove("is-active")
+            this.$(".auth-2").classList.remove("is-active")
+            this.$(".auth-3").classList.remove("is-active")
+            this.$(".auth-4").classList.remove("is-active")
+            this.authCode = ""
+
+            this.$("#act-apply-passcode").classList.add("is-hide")
+            this.$("#act-cancel-passcode").classList.add("is-hide")
         })
 
         ipcRenderer.on("auth:success", (e, user) => {
