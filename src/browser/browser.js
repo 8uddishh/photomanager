@@ -33,10 +33,12 @@ const init = (user) => {
     }
 }
 
-let browserReady = () => {
+let browserReady = () => {  
     ipcRenderer.on("start:userExist", (e,user) => {
         init(user)
     })
+
+    ipcRenderer.send("browser:ready", { })
 }
 
 document.addEventListener("DOMContentLoaded", browserReady)

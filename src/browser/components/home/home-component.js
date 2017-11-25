@@ -93,7 +93,7 @@ export class homeComponent extends baseComponent {
     settifyTriggers () {
 
         ipcRenderer.on("file:complete", e => {
-            console.log(this.fileProcessed.success++)
+            this.fileProcessed.success++
             this.$("#spn-success").innerHTML = this.fileProcessed.success
         })
     }

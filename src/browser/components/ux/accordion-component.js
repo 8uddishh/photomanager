@@ -15,7 +15,6 @@ export class accordionComponent extends baseComponent {
     }
 
     settifyTriggers () {
-        console.log(this.$el)
         this.$All(".dropdown-trigger button")
             .forEach($btn => {
                 $btn.addEventListener("click", this.accordionSelect($btn))

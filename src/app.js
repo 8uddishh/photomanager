@@ -16,8 +16,6 @@ const queuedDirs = []
 const assetsDirectory = path.join(__dirname, "browser", "assets")
 const dbContext = new imageDbContext("photo-electron.json")
 
-let loggedInUser
-
 const formData = (file) => {
     var data = new FormData()
     data.append('photo', file.stream$, file.filename)
@@ -141,7 +139,7 @@ const processDirectory = mainWindow => directory => {
 }
 
     electronReady(app).then(msg => {
-
+        let loggedInUser
         let photoMainWindow = new BrowserWindow({
             width: 375,
             height: 633,
@@ -150,6 +148,16 @@ const processDirectory = mainWindow => directory => {
             fullscreenable: false,
             resizable: false,
             movable: true
+        })
+
+        //browser ready 
+        ipcMain.on("browser:ready", (e, code) => {
+            dbContext.init()
+                .then(response => {
+                    loggedInUser = dbContext.profiles.retrieve()[0]
+                    dbContext.saveDatabase()
+                    photoMainWindow.webContents.send("start:userExist", loggedInUser) 
+                })
         })
 
         photoMainWindow.loadURL(url.format({
@@ -191,13 +199,12 @@ const processDirectory = mainWindow => directory => {
                 })
         })
 
-        dbContext.init()
-            .then(response => {
-                loggedInUser = dbContext.profiles.retrieve()[0]
-                dbContext.saveDatabase()
-                return setTimeOut(200)
-            }).then(() => {
-                photoMainWindow.webContents.send("start:userExist", loggedInUser) 
-            })
+
+        
+
+        
             
+            // .then(() => {
+            //     photoMainWindow.webContents.send("start:userExist", loggedInUser) 
+            // })
     })
