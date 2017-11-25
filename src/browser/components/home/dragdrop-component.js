@@ -4,14 +4,12 @@ export class dragdropComponent extends baseComponent {
 
     constructor($el, $link) {
         super($el, $link)
-        this.$el.innerHTML = this.$template
-        this.$link.classList.add("active")
-        document.querySelector("body").removeAttribute("class")
         document.querySelector("body").classList.add("dragdrop")
     }
 
     get $template(){
         return `  
+        <div class="route-filler is-route-slide is-right">
     <div class="container header-container">
         <div class="is-uppercase">
             drag drop image(s) 
@@ -46,6 +44,6 @@ export class dragdropComponent extends baseComponent {
             </span></a>
         </div>
       </div>
-</div>`
+</div></div>`
     }
 }

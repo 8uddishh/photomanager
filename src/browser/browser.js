@@ -41,11 +41,19 @@ let browserReady = () => {
 
 document.addEventListener("DOMContentLoaded", browserReady)
 window.addEventListener("hashchange",(event) => {
-    $routeOutlet.innerHTML = ""
+    let prevRoute$ = document.querySelector(".route-filler")
+    prevRoute$.classList.add("is-route-slide", "is-left")   
+
     let hash = window.location.hash.substring(1)
     document.querySelector(".footer-icons .active").classList.remove("active")
     let cpnt = routes.get(hash)()
     cpnt.settify()
+    let nextRoute$ = document.querySelector(".route-filler.is-right")
+
+    setTimeout(() => {
+        prevRoute$.remove()
+        nextRoute$.classList.remove("is-route-slide",  "is-right")
+    }, 300)
 })
 
 

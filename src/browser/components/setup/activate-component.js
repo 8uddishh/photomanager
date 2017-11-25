@@ -5,6 +5,7 @@ export class activationComponent extends baseComponent {
 
     get $template() {
         return `
+        <div class="route-filler">
         <div class="container header-container">
             <div class="is-uppercase">
                 activate your app
@@ -154,13 +155,11 @@ export class activationComponent extends baseComponent {
                     </a>
                 </div>
             </div>
-        </div>
+        </div></div>
         `
     }
     constructor($el, $link) {
         super($el, $link)
-        this.$el.innerHTML = this.$template
-        document.querySelector("body").removeAttribute("class")
         document.querySelector("body").classList.add("activate")
         this.currentSlide = 0
         this.slides = [ "#act-hello", "#act-step-1", "#act-step-2", "#act-step-3", "#act-step-4", "#act-welcome" ]

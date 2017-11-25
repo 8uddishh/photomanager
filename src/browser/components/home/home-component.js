@@ -5,9 +5,6 @@ export class homeComponent extends baseComponent {
 
     constructor($el, $link) {
         super($el, $link)
-        this.$el.innerHTML = this.$template
-        this.$link.classList.add("active")
-        document.querySelector("body").removeAttribute("class")
         document.querySelector("body").classList.add("home")
 
         this.fileProcessed = {
@@ -19,6 +16,7 @@ export class homeComponent extends baseComponent {
 
     get $template(){
         return `  
+        <div class="route-filler is-route-slide is-right">
     <div class="container header-container">
         <div class="is-uppercase">
             upload options
@@ -88,6 +86,7 @@ export class homeComponent extends baseComponent {
               </div>
             </div>
           </div>
+    </div>
     </div>`
     }
 

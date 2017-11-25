@@ -4,14 +4,12 @@ export class notificationsComponent extends baseComponent {
 
     constructor($el, $link) {
         super($el, $link)
-        this.$el.innerHTML = this.$template
-        this.$link.classList.add("active")
-        document.querySelector("body").removeAttribute("class")
         document.querySelector("body").classList.add("notifications")
     }
 
     get $template(){
         return `  
+        <div class="route-filler is-route-slide is-right">
         <div class="tabs is-toggle is-fullwidth">
             <ul>
                 <li class="is-active is-uppercase"><a>All</a></li>
@@ -62,7 +60,7 @@ export class notificationsComponent extends baseComponent {
                 </figure>
             </li>
         </ul>
-      </div>
+      </div></div>
     `
     }
 }

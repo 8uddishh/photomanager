@@ -5,14 +5,12 @@ export class settingsComponent extends baseComponent {
 
     constructor($el, $link) {
         super($el, $link)
-        this.$el.innerHTML = this.$template
-        this.$link.classList.add("active")
-        document.querySelector("body").removeAttribute("class")
         document.querySelector("body").classList.add("settings")
     }
 
     get $template(){
         return `
+        <div class="route-filler is-route-slide is-right">
         <div id="settings-accordion" class="accordion">
           <div class="dropdown is-active">
             <div class="dropdown-trigger">
@@ -120,7 +118,7 @@ export class settingsComponent extends baseComponent {
         </ul>
       </div>
     </div>
-        </div>
+        </div></div>
     `
     }
 
