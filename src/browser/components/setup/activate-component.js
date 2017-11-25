@@ -172,7 +172,7 @@ export class activationComponent extends baseComponent {
         document.querySelector("#prev-step").classList.add("hidden")
 
         document.querySelector("#next-step").addEventListener("click", e => {
-            if(!e.target.hasAttribute("disabled")) {
+            if(!e.currentTarget.hasAttribute("disabled")) {
                 this.$(this.slides[this.currentSlide]).classList.remove("is-active")
                 this.$(this.slides[this.currentSlide]).classList.add("is-slide", "is-left")
     
@@ -219,7 +219,7 @@ export class activationComponent extends baseComponent {
         })
 
         this.$("#act-app").addEventListener("click", e => {
-            if(!e.target.hasAttribute("disabled")) {
+            if(!e.currentTarget.hasAttribute("disabled")) {
                 this.$(this.slides[this.currentSlide]).classList.remove("is-active")
                 this.$(this.slides[this.currentSlide]).classList.add("is-slide", "is-left")
     
