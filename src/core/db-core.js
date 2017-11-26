@@ -48,9 +48,6 @@ export class imageDbContext {
         return new Promise((resolve, reject) => {
             this.db.loadDatabase({}, () => {
                 this.profiles = new profileContext(this.db)
-                // test
-                this.test = new testContext(this.db)
-
                 resolve(true)
             })
         })

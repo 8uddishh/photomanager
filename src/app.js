@@ -11,6 +11,8 @@ import FormData from "form-data"
 import axios from "axios"
 import shortid from "shortid"
 import { imageDbContext } from "./core/db-core"
+import uuid from "uuid/v4"
+import atob from "atob"
 
 const queuedDirs = []
 const assetsDirectory = path.join(__dirname, "browser", "assets")
@@ -140,6 +142,7 @@ const processDirectory = mainWindow => directory => {
 
     electronReady(app).then(msg => {
         let loggedInUser
+        let authtoken
         let photoMainWindow = new BrowserWindow({
             width: 375,
             height: 633,
@@ -155,8 +158,12 @@ const processDirectory = mainWindow => directory => {
             dbContext.init()
                 .then(response => {
                     loggedInUser = dbContext.profiles.retrieve()[0]
-                    dbContext.saveDatabase()
-                    photoMainWindow.webContents.send("start:userExist", loggedInUser) 
+                    if(!loggedInUser) {
+                        photoMainWindow.webContents.send("start:userNotExist", uuid()) 
+                    }
+                    else {
+                        photoMainWindow.webContents.send("start:userExist", loggedInUser) 
+                    }
                 })
         })
 
@@ -189,22 +196,23 @@ const processDirectory = mainWindow => directory => {
         })
 
         //authorize
-        ipcMain.on("auth:activate", (e, code) => {
-            authorize({ appKey: code })
+        ipcMain.on("auth:activate", (e, authInfo) => {
+            authorize(authInfo)
                 .then(response => {
-                    if(response.data.status == "success")
-                        photoMainWindow.webContents.send("auth:success", response.data)
-                    else 
-                        photoMainWindow.webContents.send("auth:failed", response.data)
+                    authtoken = response.data.token
+                    let authPayload = atob(authtoken.split(".")[1])
+                    let user = JSON.parse(authPayload)
+                    loggedInUser = {
+                        fullName: user.name,
+                        applicationKey: authInfo.ApplicationKey,
+                        token: authtoken
+                    }
+
+                    dbContext.profiles.insert(loggedInUser)
+                    dbContext.saveDatabase()
+                    photoMainWindow.webContents.send("auth:success", loggedInUser) 
+                }).catch(err => {
+                    photoMainWindow.webContents.send("auth:failed", err)
                 })
         })
-
-
-        
-
-        
-            
-            // .then(() => {
-            //     photoMainWindow.webContents.send("start:userExist", loggedInUser) 
-            // })
     })

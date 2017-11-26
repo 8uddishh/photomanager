@@ -18,24 +18,34 @@ const routes = new Map([
     ["dragdrop", () => new dragdropComponent($routeOutlet, document.querySelector("#btn-dragdrop"))]
 ])
 
-const init = (user) => {
-    if(!user) {
-        document.querySelector("#qk-nav-container").classList.add("hidden")
-        document.querySelector("#footer-container").classList.add("hidden")
-        let activateCpnt = new activationComponent($routeOutlet, null)
-        activateCpnt.settify()
-    }
-    else {
-        let cpnt = routes.get("home")()
-        cpnt.settify()
-        let navCpnt = new navigationComponent(document.querySelector(".browser-qk-navs"), null)
-        navCpnt.settify()
-    }
+const initRoutes = (user) => {
+    let cpnt = routes.get("home")()
+    cpnt.settify()
+    let navCpnt = new navigationComponent(document.querySelector(".browser-qk-navs"), null)
+    navCpnt.settify()
+
+    let currRoute$ = document.querySelector(".route-filler.is-right")
+    
+   setTimeout(() => {
+        currRoute$.classList.remove("is-route-slide",  "is-right")
+    }, 300)
+}
+
+const initSetup = (applicationKey) => {
+    document.querySelector("#qk-nav-container").classList.add("hidden")
+    document.querySelector("#footer-container").classList.add("hidden")
+    let activateCpnt = new activationComponent($routeOutlet, null)
+    activateCpnt.applicationKey = applicationKey
+    activateCpnt.settify()
 }
 
 let browserReady = () => {  
     ipcRenderer.on("start:userExist", (e,user) => {
-        init(user)
+        initRoutes (user)
+    })
+
+    ipcRenderer.on("start:userNotExist", (e,applicationKey) => {
+        initSetup (applicationKey)
     })
 
     ipcRenderer.send("browser:ready", { })

@@ -34,7 +34,7 @@ export class activationComponent extends baseComponent {
                         <li><p>Copy application id below by clicking the <i class="fa fa-copy"></i> button</p></li>
                         <li class="auth-code">
                             <div class="pull-left">
-                                <span class="bar-code">710b962e-041c-11e1-9234-0123456789ab</span>
+                                <span id="act-application-key" class="bar-code"></span>
                             </div>
                             <a class="button is-pulse pull-right" id="select-auth-code" ><i class="fa fa-copy"></i></a>
                         </li>
@@ -163,6 +163,7 @@ export class activationComponent extends baseComponent {
         document.querySelector("body").classList.add("activate")
         this.currentSlide = 0
         this.slides = [ "#act-hello", "#act-step-1", "#act-step-2", "#act-step-3", "#act-step-4", "#act-welcome" ]
+        this.applicationKey = ""
         this.applicationKeySelected = false
         this.authCode = ""
     }
@@ -228,7 +229,12 @@ export class activationComponent extends baseComponent {
                 this.$(this.slides[this.currentSlide]).classList.add("is-active")
 
                 document.querySelector("#footer-setup-container").classList.add("hidden")
-                ipcRenderer.send("auth:activate", this.$("#act-auth-code").value)
+                setTimeout(() => {
+                    ipcRenderer.send("auth:activate", { 
+                        ApplicationKey: this.applicationKey, 
+                        AuthKey: this.$("#act-auth-code").value 
+                    })
+                }, 500)
             }
         })
 
@@ -282,8 +288,9 @@ export class activationComponent extends baseComponent {
         })
 
         ipcRenderer.on("auth:success", (e, user) => {
-            this.applicationKeySelected = true
-            this.$("#act-logged-user").innerHTML = user.userFullname
+            //this.applicationKeySelected = true
+            console.log(user)
+            this.$("#act-logged-user").innerHTML = user.fullName
             document.querySelector("#next-step").click()
             setTimeout(() => {
                 this.$("#act-auth-error").classList.remove("is-active")
@@ -297,5 +304,7 @@ export class activationComponent extends baseComponent {
                 this.$("#act-auth-error").classList.add("is-active")
             }, 200)
         })
+
+        this.$("#act-application-key").innerHTML = this.applicationKey
     }
 }

@@ -18,6 +18,7 @@
     "gulp-sass": "^3.1.0"
   },
   "dependencies": {
+    "atob": "^2.0.3",
     "axios": "^0.17.1",
     "bulma": "^0.6.1",
     "croppie": "^2.5.1",
@@ -27,6 +28,7 @@
     "google-cloud": "^0.55.0",
     "highland": "^2.11.1",
     "lokijs": "^1.5.1",
-    "shortid": "^2.2.8"
+    "shortid": "^2.2.8",
+    "uuid": "^3.1.0"
   }
 }
