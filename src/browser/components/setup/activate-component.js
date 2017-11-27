@@ -1,5 +1,6 @@
 import { baseComponent } from "./../base-component"
 import { ipcRenderer } from "electron"
+import { copyToClipboard } from "./../component-extensions"
 
 export class activationComponent extends baseComponent {
 
@@ -234,7 +235,7 @@ export class activationComponent extends baseComponent {
                         ApplicationKey: this.applicationKey, 
                         AuthKey: this.$("#act-auth-code").value 
                     })
-                }, 500)
+                }, 1000)
             }
         })
 
@@ -285,6 +286,10 @@ export class activationComponent extends baseComponent {
 
             this.$("#act-apply-passcode").classList.add("is-hide")
             this.$("#act-cancel-passcode").classList.add("is-hide")
+        })
+
+        this.$("#select-auth-code").addEventListener("click", e => {
+            copyToClipboard(this.applicationKey)
         })
 
         ipcRenderer.on("auth:success", (e, user) => {
