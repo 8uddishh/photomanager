@@ -38,7 +38,7 @@ export class activationComponent extends baseComponent {
                                 <span id="act-application-key" class="bar-code"></span>
                             </div>
                             <div class="pull-right">
-                                <a class="button is-pulse pull-right" id="select-auth-code" ><i class="fa fa-copy"></i></a>
+                                <a class="button is-pulse" id="select-auth-code" ><i class="fa fa-copy"></i></a>
                                 <span class="tag is-dark is-copied">Copied</span>
                             </div>
                         </li>
