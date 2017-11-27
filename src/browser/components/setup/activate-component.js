@@ -37,7 +37,10 @@ export class activationComponent extends baseComponent {
                             <div class="pull-left">
                                 <span id="act-application-key" class="bar-code"></span>
                             </div>
-                            <a class="button is-pulse pull-right" id="select-auth-code" ><i class="fa fa-copy"></i></a>
+                            <div class="pull-right">
+                                <a class="button is-pulse pull-right" id="select-auth-code" ><i class="fa fa-copy"></i></a>
+                                <span class="tag is-dark is-copied">Copied</span>
+                            </div>
                         </li>
                         <li>Paste the copied code into the BOT textbox and click generate</li>
                         <li>You would be displayed with an auth code</li>
@@ -290,6 +293,10 @@ export class activationComponent extends baseComponent {
 
         this.$("#select-auth-code").addEventListener("click", e => {
             copyToClipboard(this.applicationKey)
+            this.$(".is-copied").classList.add("is-active")
+            setTimeout(() => {
+                this.$(".is-copied").classList.remove("is-active")
+            }, 2000)
         })
 
         ipcRenderer.on("auth:success", (e, user) => {
