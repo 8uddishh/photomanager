@@ -1,8 +1,8 @@
 import loki from "lokijs"
 
 export class model {
-    constructor (db, cname) {
-        this.collection = db.getCollection(cname) || db.addCollection(cname)
+    constructor (db, cname, options) {
+        this.collection = db.getCollection(cname) || db.addCollection(cname, options)
     }
 
     retrieve () {
@@ -14,7 +14,7 @@ export class model {
     }
 
     insert (obj) {
-        this.collection.insert( obj )
+        return this.collection.insert( obj )
     }
 
     update (obj) {
@@ -24,17 +24,29 @@ export class model {
     remove (id) {
         this.collection.remove(id)
     }
+
+    find (option) {
+        return this.collection.find(option)
+    }
+}
+
+export class applicationContext extends model {
+    constructor(db) {
+        super(db, "applications", {})
+    }
 }
 
 export class profileContext extends model {    
     constructor(db) {
-        super(db, "profiles")
+        super(db, "profiles", {})
     }
 }
 
-export class testContext extends model {
+export class folderContext extends model {    
     constructor(db) {
-        super(db, "test")
+        super(db, "folders", {
+            indices: ["folderName", "folderPath"]
+        })
     }
 }
 
@@ -48,6 +60,8 @@ export class imageDbContext {
         return new Promise((resolve, reject) => {
             this.db.loadDatabase({}, () => {
                 this.profiles = new profileContext(this.db)
+                this.applications = new applicationContext(this.db)
+                this.folders = new folderContext(this.db)
                 resolve(true)
             })
         })

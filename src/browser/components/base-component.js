@@ -27,4 +27,12 @@ export class baseComponent {
         this.settifyTriggers()
         this.settifyWidgets()
     }
+
+    unsettifyTriggers () {
+
+    }
+
+    unsettify () {
+        this.unsettifyTriggers()
+    }
 }

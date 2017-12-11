@@ -168,6 +168,7 @@ export class activationComponent extends baseComponent {
         this.currentSlide = 0
         this.slides = [ "#act-hello", "#act-step-1", "#act-step-2", "#act-step-3", "#act-step-4", "#act-welcome" ]
         this.applicationKey = ""
+        this.applicationKeyHash = ""
         this.applicationKeySelected = false
         this.authCode = ""
     }
@@ -292,7 +293,7 @@ export class activationComponent extends baseComponent {
         })
 
         this.$("#select-auth-code").addEventListener("click", e => {
-            copyToClipboard(this.applicationKey)
+            copyToClipboard(`${this.applicationKey}.${this.applicationKeyHash}`)
             this.$(".is-copied").classList.add("is-active")
             setTimeout(() => {
                 this.$(".is-copied").classList.remove("is-active")

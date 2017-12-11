@@ -1,29 +1,22 @@
 import { app,  BrowserWindow, Menu, ipcMain, dialog, Tray } from "electron"
 import url from "url"
 import path from "path"
-import { 
-            IS_MAC, IS_PROD, electronReady, folderOpen, authorize, setTimeOut,
-            directoryRead, directoryFiles$, isImagefile, fileRead$, fileUpload$
-        } from "./core/process-core"
-import fs from "fs"
-import H from "highland"
-import FormData from "form-data"
-import axios from "axios"
-import shortid from "shortid"
+import { IS_MAC, electronReady, folderOpen } from "./core/electron-core"
+
+// Start new
 import { imageDbContext } from "./core/db-core"
-import uuid from "uuid/v4"
-import atob from "atob"
+import { folderConfigureContext } from "./core/folder-core"
+import { fileContext } from "./core/file-core"
+import { utilitiesContext } from "./core/utilities-core"
+
+import { applicationContext } from "./core/application-core"
+
+
 
 const queuedDirs = []
 const assetsDirectory = path.join(__dirname, "browser", "assets")
 const dbContext = new imageDbContext("photo-electron.json")
 
-const formData = (file) => {
-    var data = new FormData()
-    data.append('photo', file.stream$, file.filename)
-
-    return data
-}
 
 const toggleWindow = (window, tray) => {
     if (window.isVisible()) {
@@ -100,119 +93,123 @@ const showWindow = (window, tray) => {
     window.setPosition(position.x, position.y, false)
     window.show()
     window.focus()
-  }
-
-const processDirectory = mainWindow => directory => {
-    const fileListStreamFromDirectory$ = directoryFiles$(directory)
-        .sequence()
-        .filter(isImagefile)
-        .map(file => ({
-            filename: file,
-            fullfilename: IS_MAC ? `${directory}/${file}` : `${directory}\\${file}`,
-            shid: shortid.generate()
-        }))
-    
-    const fileReadStream$ = fileListStreamFromDirectory$.observe()
-                .map(file => ({
-                    stream$: fileRead$(file.fullfilename),
-                    filename: file.filename,
-                    fullfilename: file.fullfilename,
-                    shid: file.shid
-                }))
-
-    const Webupload$ = fileReadStream$.observe().flatMap(file => {
-        return fileUpload$(formData(file))
-    })
-
-    Webupload$.each(response => {
-        mainWindow.webContents.send("file:complete", { status: "success" })
-    }).done(() => {
-        console.log("done")
-    })
-
-    fileReadStream$.each(file => {
-       //console.log(file.shid)
-    })
-
-    fileListStreamFromDirectory$.each(file => {
-        mainWindow.webContents.send("file:read", `${ IS_MAC ? encodeURI(file.fullfilename) 
-            :  file.fullfilename}`)
-    })
 }
+    
+electronReady(app).then(msg => {
+        
+    let electronApp
+    let photoMainWindow = new BrowserWindow({
+        width: 375,
+        height: 633,
+        show: false,
+        frame: false,
+        fullscreenable: false,
+        resizable: false,
+        movable: true
+    })
 
-    electronReady(app).then(msg => {
-        let loggedInUser
-        let authtoken
-        let photoMainWindow = new BrowserWindow({
-            width: 375,
-            height: 633,
-            show: false,
-            frame: false,
-            fullscreenable: false,
-            resizable: false,
-            movable: true
+    // load application to chrome
+    photoMainWindow.loadURL(url.format({
+        pathname: path.join(__dirname, "browser", "photo-manager.html"),
+        protocol: "file:",
+        slashes: true
+    }))
+
+    // window events
+    photoMainWindow.on('blur', () => {
+        // if (!photoMainWindow.webContents.isDevToolsOpened()) {
+        //     photoMainWindow.hide()
+        // }
+    })
+
+    // create Tray
+    createTray (photoMainWindow)
+
+
+    // Contexts
+    let folderCtx = {}
+    let fileCtx = {}
+    let utilitiesCtx = {}
+    let applicationCtx = {}
+
+
+    // IPC event listeners
+    //browser 
+    ipcMain.on("browser:ready", e => {
+        dbContext.init()
+            .then(response => {
+                folderCtx = new folderConfigureContext(dbContext)
+                folderCtx.settify()
+                fileCtx = new fileContext()
+                fileCtx.settify()
+                utilitiesCtx = new utilitiesContext()
+                utilitiesCtx.settify()
+                applicationCtx = new applicationContext(photoMainWindow, folderCtx, fileCtx, utilitiesCtx)
+                applicationCtx.settify()
+                photoMainWindow.webContents.send("start:app-ready", {})
+            })
+    })
+
+    ipcMain.on("app:close", e => {
+        photoMainWindow.hide()
+    })
+
+    // folder process
+    // handle folder dialog cancel
+    ipcMain.on("nav:open-folder", e => {
+        folderOpen(photoMainWindow, { properties: ["openDirectory"] })
+            .then(dir => {
+                queuedDirs.push(dir)
+                photoMainWindow.webContents.send("directory:firstselect", {})
+            })
+    })
+
+    ipcMain.on("process:folder", e => {
+        let next = queuedDirs.pop()
+        applicationContext.processDirectory(next)("http://127.0.0.1:3000/photos/upload")
+    })
+
+    
+    //folder settings
+    ipcMain.on("folders:retrieve", e => {
+        let folders = folderCtx.getFolders()
+        photoMainWindow.webContents.send("st-folders:retrieved", folders)
+        photoMainWindow.webContents.send("qu-folders:retrieved", folders)
+    })
+
+    ipcMain.on("folder:open", e => {
+        folderOpen(photoMainWindow, { properties: ["openDirectory"] })
+            .then(dir => {
+                photoMainWindow.webContents.send("st-folder:selected", dir)
+            })
+    })
+
+    ipcMain.on("folder:add", (e, folderInfo) => {
+        var folder = dbContext.folders.find({
+            "folderName": folderInfo.folderName
         })
+        if(folder.length > 0) {
+            photoMainWindow.webContents.send("st-folder:error", ["folder name already exists"])
+        }
+        else {
+            folder = dbContext.folders.find({
+                "folderPath": folderInfo.folderPath
+            })
 
-        //browser ready 
-        ipcMain.on("browser:ready", (e, code) => {
-            dbContext.init()
-                .then(response => {
-                    loggedInUser = dbContext.profiles.retrieve()[0]
-                    if(!loggedInUser) {
-                        photoMainWindow.webContents.send("start:userNotExist", uuid()) 
-                    }
-                    else {
-                        photoMainWindow.webContents.send("start:userExist", loggedInUser) 
-                    }
-                })
-        })
-
-        photoMainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, "browser", "photo-manager.html"),
-            protocol: "file:",
-            slashes: true
-        }))
-
-        photoMainWindow.on('blur', () => {
-            if (!photoMainWindow.webContents.isDevToolsOpened()) {
-                photoMainWindow.hide()
+            if(folder.length > 0) {
+                photoMainWindow.webContents.send("st-folder:error", ["folder path already mapped"])
             }
-        })
-
-        createTray (photoMainWindow) 
-
-        // handle folder dialog cancel
-        ipcMain.on("nav:open-folder", e => {
-            folderOpen(photoMainWindow, { properties: ["openDirectory"] })
-                .then(dir => {
-                    queuedDirs.push(dir)
-                    photoMainWindow.webContents.send("directory:firstselect", {})
+            else {
+                folderCtx.createfolder(folderInfo, (newFolder) => {
+                    photoMainWindow.webContents.send("st-folder:added", newFolder)
                 })
-        })
+            }
+        }
+    })
 
-        ipcMain.on("process:folder", e => {
-            let next = queuedDirs.pop()
-            processDirectory(photoMainWindow)(next)
-        })
-
-        //authorize
-        ipcMain.on("auth:activate", (e, authInfo) => {
-            authorize(authInfo)
-                .then(response => {
-                    authtoken = response.data.token
-                    let authPayload = atob(authtoken.split(".")[1])
-                    let user = JSON.parse(authPayload)
-                    loggedInUser = {
-                        fullName: user.name,
-                        applicationKey: authInfo.ApplicationKey,
-                        token: authtoken
-                    }
-
-                    dbContext.profiles.insert(loggedInUser)
-                    dbContext.saveDatabase()
-                    photoMainWindow.webContents.send("auth:success", loggedInUser) 
-                }).catch(err => {
-                    photoMainWindow.webContents.send("auth:failed", err)
-                })
+    ipcMain.on("folder:delete", (e, folderId) => {
+        folderCtx.removeFolder(folderId, (folderId) => {
+            photoMainWindow.webContents.send("st-folder:deleted", folderId)
         })
     })
+})

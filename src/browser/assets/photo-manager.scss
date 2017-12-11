@@ -50,6 +50,99 @@ $progress-bar-background-color: rgb(221, 220, 220);
     95% { transform: translateX(0rem) scale(1); }
 }
 
+@keyframes quickScaleDown {
+    0% {
+      transform:scale(1);
+    }
+    99.9% {
+      transform:scale(1);
+    }
+    100% {
+      transform:scale(0);
+    }
+  }
+
+  @keyframes modalFadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+  }
+  
+  @keyframes modalFadeOut {
+    0% {
+        opacity:1;
+    }
+    100% {
+        opacity:0;
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      background:rgba(0,0,0,.0);
+    }
+    100% {
+      background:rgba(0,0,0,.7);
+    }
+  }
+
+@keyframes fadeOut {
+  0% {
+    background:rgba(0,0,0,.7);
+  }
+  100% {
+    background:rgba(0,0,0,.0);
+  }
+}
+
+@keyframes openspace {
+    to {
+        height: auto;
+    }
+}
+ 
+@keyframes restored-item-animation {
+    0% {
+        opacity: 0;
+         transform: translateX(300px);
+    }
+ 
+    70% {
+        opacity: 1;
+        transform: translateX(-50px);
+    }
+ 
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes removed-item-animation {
+    0% {
+        opacity: 1;
+        transform: translateX(0) rotateZ(0);
+    }
+ 
+    50% {
+        opacity: 1;
+        transform: translateX(-400px) rotateZ(0);
+    }
+ 
+    75% {
+        opacity: 1;
+        transform: translateX(-420px) rotateZ(-30deg);
+    }
+ 
+    100% {
+        opacity: 0;
+        transform: translateX(-800px) rotateZ(-60deg)  translateY(400px);
+    }
+}
+
 $app-legend: #ccc;
 $app-white: #fff;
 $app-black: #252525;
@@ -373,6 +466,72 @@ body {
 
     &.dragdrop {
         background-color: $app-icon-dragdrop;
+    }
+
+    &.login {
+        background: linear-gradient(-30deg, #81d414, #18c7d0);
+        
+        .login-outer-container {
+            height: 600px;
+            position: relative;
+            width: 100%;
+
+            .login-header {
+                padding: 20px 0px;
+                display: flex; 
+                align-items: center; 
+                justify-content: center;
+                background-color: rgba(255, 255, 255, 0.97);
+                box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12);
+            }
+
+            .login-container {
+                background: linear-gradient(30deg, #108a07, #086f73);
+                position: absolute;
+                bottom: 0px;
+                min-height: 250px;
+                width: 100%;
+                display: flex;
+                justify-content: center; 
+
+                .login-user {
+                    padding: 10px; 
+                    top: -105px;
+                    position: absolute; 
+                    display:inline-block;
+                    padding: 20px;
+                    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12);
+                    background-color: rgba(255, 255, 255, 0.58);
+                    border-radius: 3px;
+                    border: 1px solid $app-file-drag-drop-bkground;
+
+                    .is-link {
+                        &.is-gradient {
+                            background: linear-gradient(40deg, #215b7d, #04794e) !important;
+                            transition: all 0.5s ease-in;
+                            box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12);
+                            opacity: 1;
+                
+                            &:hover, &.is-active {
+                                background: linear-gradient(40deg, #04794e, #215b7d ) !important;
+                            }
+                        }
+                    }
+                }
+
+                .login-footer {
+                    position: absolute; 
+                    bottom: 0px;
+                    font-size: 0.85rem;
+                    padding: 10px 0px;
+                    display: flex; 
+                    width:100%; 
+                    justify-content:center;
+                    color: $app-white;
+                    background-color: rgba(0, 0, 0, 0.8);
+                }
+            }
+        }
     }
 
     &.activate {
@@ -1234,7 +1393,7 @@ body {
             opacity: 1;
 
             &:hover, &.is-active {
-                background: linear-gradient(40deg, rgb(233, 82, 82), #b90a0a) !important;
+                background-color: linear-gradient(40deg, rgb(233, 82, 82), #b90a0a) !important;
             }
         }
 
@@ -1382,16 +1541,140 @@ body {
         }
     }
 
+    .modal {
+        box-shadow: 0 5px 11px 0 rgba(0,0,0,.18),0 4px 15px 0 rgba(0,0,0,.15);
+        transform:scale(1);
+
+        .modal-card-head,
+        .modal-card-body,
+        .modal-card-foot {
+          padding: 5px;
+          border-color: transparent;
+          background: linear-gradient(to right, #21677b, #45e1e8);
+          opacity:0;
+        }
+
+        .modal-card-foot {
+          padding: 0px;
+
+          .is-buttons {
+              width: 100%;
+              margin: 0px;
+
+              .column {
+                  padding: 0px;
+                  height: auto;
+
+                  .button {
+                      font-size: 0.875rem;
+                      padding: 10px 0px;
+                      border-radius: 0px;
+                      border-width: 1px 1px 0px 0px;
+                      height: auto;
+                      background-color: transparent;
+                      border-color: #07382a;
+                      color: #07382a;
+                  }
+
+                  &:first-of-type {
+                      .button {
+                        border-top-left-radius: 5px;
+                        border-bottom-left-radius: 5px;
+                      }
+                  }
+
+                  &:last-of-type {
+                      .button {
+                        border-width: 1px 0px 0px 0px;
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                      }
+                  }
+              }
+          }
+        }
+
+        .modal-card-body {
+            padding: 10px;
+            .label {
+                font-size: 0.75em;
+                color: #d2d2de;
+                padding: 8px 0px 0px 0px;
+            }
+    
+            input {
+                font-size: 0.85rem;
+                box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.5), 0 0px 0px 0 rgba(0, 0, 0, 0.5), 0 0px 0px 0px rgba(0, 0, 0, 0.5);
+                padding: 0 15px;
+                font-weight: normal;
+                background: linear-gradient(#f2f2f2, white);
+            }
+            
+            a {
+                font-size: 0.85rem;
+                box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.5), 0 0px 0px 0 rgba(0, 0, 0, 0.5), 0 0px 0px 0px rgba(0, 0, 0, 0.5);
+            }
+
+            .field:last-of-type {
+                margin-bottom: 15px !important;
+            }
+        }
+
+        &.is-active {
+            transform:scale(1);
+            .modal-background {
+                background:rgba(0,0,0,.0);
+                animation: fadeIn .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+            }
+            .modal-card-head,
+            .modal-card-body,
+            .modal-card-foot {
+                animation: modalFadeIn .5s .3s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+            }
+        }
+
+        &.m-off {
+            .modal-background {
+                animation: fadeOut .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+            }
+
+            .modal-card-head,
+            .modal-card-body,
+            .modal-card-foot {
+                animation: modalFadeOut .8s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+            }
+        }
+    }
+
+    .message {
+        &.is-danger {
+            background: linear-gradient(to right, rgb(232, 11, 11), rgba(109, 23, 23, 0.94));
+            margin-bottom: 0px;
+        }
+
+        .message-body {
+            padding: 8px;
+            color: $app-white !important;
+            font-size: 0.78rem;
+            margin-bottom: 12px;
+        }
+    }
+
+    li {
+        &.restored-item {
+            transform: translateX(300px);
+            animation: 
+                openspace .3s ease forwards, 
+                restored-item-animation .5s .3s cubic-bezier(.14,.25,.52,1.56) forwards;
+        }
+
+        &.removed-item {
+            animation: removed-item-animation 1s linear;
+            transform-origin: 390px 100%;
+        }
+    }
+
     .app {
         margin-top: 35px;
     }
 }
-
-
-        
-        // .photo-view {
-        //     .column {
-        //         margin-bottom: 1rem;
-        //         min-height: 500px;
-        //     }
-        // }

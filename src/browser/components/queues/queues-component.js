@@ -1,10 +1,22 @@
 import { baseComponent } from "./../base-component"
 import { accordionComponent } from "./../ux/accordion-component"
+import { ipcRenderer } from "electron"
 
 export class queuesComponent extends baseComponent {
 
     constructor($el, $link) {
         super($el, $link)
+        this.folderTemplate = (folderInfo) => `
+        <div class="pull-left">
+          <div class="title is-capitalized">
+          ${folderInfo.folderName}
+          </div>
+          <div class="subtitle is-uppercase">
+            ${folderInfo.folderPermissions.reduce((curr, next) => `${curr} ${next}`)}
+          </div>
+        </div>
+        <a class="button icon run pull-right" folder-id=${folderInfo.$loki}><i class="fa fa-play-circle"></i></a>
+      `
         document.querySelector("body").classList.add("queues")
     }
 
@@ -110,28 +122,12 @@ export class queuesComponent extends baseComponent {
         </button>
       </div>
       <div class="dropdown-menu is-shadow" id="dropdown-menu" role="menu">
-      <ul class="dropdown-content vertical-flow">
-        <li class="dropdown-item">
-            <div class="pull-left">
-            <div class="title">
-                Folder # 1
-            </div>
-            <div class="subtitle is-uppercase">
-                read write delete
-            </div>
-            </div>
-            <a class="button icon run pull-right" ><i class="fa fa-play-circle"></i></a>
-        </li>
-        <li class="dropdown-item">
-            <div class="pull-left">
-            <div class="title">
-            Folder # 2
-            </div>
-            <div class="subtitle is-uppercase">
-            read write delete
-            </div>
-            </div>
-            <a class="button icon run pull-right" ><i class="fa fa-play-circle"></i></a>
+      <ul id="qus-folder-list" class="dropdown-content vertical-flow">
+        <li class="dropdown-item no-folders">
+          <div class="pull-left">
+          <div class="title">
+            No configured folder(s)
+          </div>
         </li>
       </ul>
       </div>
@@ -139,8 +135,36 @@ export class queuesComponent extends baseComponent {
       </div></div>`
     }
 
+    addFolderConfig (folderInfo) {
+      this.$("#qus-folder-list .no-folders").classList.add("is-hidden")
+      let template = this.folderTemplate(folderInfo)
+      let $li = document.createElement("li")
+      $li.classList.add("dropdown-item")
+      $li.innerHTML = template
+      $li.querySelector(".run").addEventListener("click", e => {
+        //ipcRenderer.send("folder:run", e.currentTarget.getAttribute("folder-id"))
+      })
+      this.$("#qus-folder-list").appendChild($li)
+    }
+
     settifyWidgets () {
         this.accordion = new accordionComponent(this.$("#queues-accordion"))
         this.accordion.settify()
-      }
+    }
+
+    settifyTriggers () {
+
+      ipcRenderer.on("qu-folders:retrieved", (e, folders) => {
+        folders.forEach(folderInfo => {
+          this.addFolderConfig(folderInfo)
+        })
+      })
+
+      ipcRenderer.send("folders:retrieve", {})
+    }
+
+    unsettifyTriggers () {
+      console.log("removing listener")
+      ipcRenderer.removeAllListeners("qu-folders:retrieved")
+    }
 }
